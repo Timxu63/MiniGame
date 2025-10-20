@@ -22,6 +22,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6e59c59b81ab47f9b6ec5781fa725d2c
+    m_Address: Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 79459efec17a4d00a321bdcc27bbc385
     m_Address: Assets/TextMesh Pro/Fonts/LiberationSans SDF - Outline.mat
     m_ReadOnly: 0

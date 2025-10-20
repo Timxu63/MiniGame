@@ -16,12 +16,7 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 36262ebc6aa63444e914874dab2c5547
-  m_SerializeEntries:
-  - m_GUID: 6e59c59b81ab47f9b6ec5781fa725d2c
-    m_Address: Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: d4074e383bdd2424b955f08528e86a1e, type: 2}
   m_SchemaSet:

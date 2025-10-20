@@ -15,7 +15,7 @@ MonoBehaviour:
   m_BuildTarget: 47
   m_Subtarget: 0
   m_ModuleName: WeixinMiniGame
-  m_BuildPath: D:/Self/M/Builds
+  m_BuildPath: D:/Self/MiniGame/Builds
   m_PlatformSettings:
     rid: 1494862293784854533
   m_MiniGameSettings:
@@ -888,7 +888,7 @@ MonoBehaviour:
           compressDataPackage: 0
           VideoUrl: 
           relativeDST: Builds
-          DST: D:/Self/M/Builds
+          DST: D:/Self/MiniGame/Builds
           StreamCDN: 
           bundleHashLength: 32
           bundlePathIdentifier: StreamingAssets;
