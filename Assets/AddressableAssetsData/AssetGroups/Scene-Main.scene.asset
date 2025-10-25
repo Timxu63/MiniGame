@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Scene-Main.scene
+  m_EditorClassIdentifier: 
+  m_GroupName: Scene-Main.scene
+  m_Data:
+    m_SerializedData: []
+  m_GUID: ed06e60e4cee3754aab0b0ddda060ce9
+  m_SerializeEntries:
+  - m_GUID: a5de844541985e64682c478eb5ec9f20
+    m_Address: Assets/_Resources/Scenes/Main.scene
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: d4074e383bdd2424b955f08528e86a1e, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 33cc72783fccf664f9691bbb041d293a, type: 2}
+    - {fileID: 11400000, guid: 723c0c44e37f4f64ba42f617a2c47bd6, type: 2}

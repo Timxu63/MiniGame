@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Prefab-Loading
+  m_EditorClassIdentifier: 
+  m_GroupName: Prefab-Loading
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 2ecd65b2018419a47a4594a3275a1da0
+  m_SerializeEntries:
+  - m_GUID: 17f2059f4fffcc741b9f40c864551260
+    m_Address: Assets/_Resources/Prefab/Loading/UILoading.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: d4074e383bdd2424b955f08528e86a1e, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: e6994e0eba41c4248bef71679e0828db, type: 2}
+    - {fileID: 11400000, guid: e75f78747ccb4d840945f695641e1fd8, type: 2}
