@@ -35,6 +35,16 @@ MonoBehaviour:
     LabelMode: 0
     simplified: 0
     addressReplacement: 
+  - path: Assets/_Resources/LocalModel/*.*
+    matchType: 0
+    groupName: LocalModel
+    groupTemplate: {fileID: 11400000, guid: e86d7d5449f55b748b74cb986362cd9a, type: 2}
+    groupTemplateApplicationMode: 0
+    labelRefs: []
+    dynamicLabels: []
+    LabelMode: 0
+    simplified: 0
+    addressReplacement: 
   - path: Assets/_Resources/Scenes/*.*
     matchType: 0
     groupName: Scene/${PATH[3]}

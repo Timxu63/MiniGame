@@ -15,7 +15,7 @@ namespace Framework.Runtime
         [SerializeField] public StateManager m_state = null;
         [SerializeField] public SceneManager m_scene = null;
         [SerializeField] public RuntimeManager m_runtime = null;
-        
+        [SerializeField] public TableManager m_table = null;
         /// <summary>
         /// 事件管理器
         /// </summary>
@@ -44,6 +44,11 @@ namespace Framework.Runtime
         /// 热更新运行管理器
         /// </summary>
         public static RuntimeManager RunTime { get; private set; }
+        
+        /// <summary>
+        /// 数据管理器
+        /// </summary>
+        public static TableManager Table { get; private set; }
         public void OnStarUp()
         {
             Event = m_event;
@@ -52,6 +57,7 @@ namespace Framework.Runtime
             State = m_state;
             Scene = m_scene;
             RunTime = m_runtime;
+            Table = m_table;
             State.RegisterState(new CheckAssetsState());
             State.ActiveState((int)StateName.CheckAssetsState);
         }
@@ -73,7 +79,7 @@ namespace Framework.Runtime
 
         public void OnAppShutdown()
         {
-            
+            RunTime.m_model.OnShutDown();
         }
 
         public void OnAppFocus(bool hasFocus)

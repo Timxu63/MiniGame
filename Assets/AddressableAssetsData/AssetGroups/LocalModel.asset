@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: LocalModel
+  m_EditorClassIdentifier: 
+  m_GroupName: LocalModel
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 14ce996d168bd7a4aa0463b0428b1213
+  m_SerializeEntries:
+  - m_GUID: 365516e8b73f9814cb31f1a168e69021
+    m_Address: Assets/_Resources/LocalModel/tbreward.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - LocalModel
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: d4074e383bdd2424b955f08528e86a1e, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: f8c48da49c9a8324d906f2516f8bd70c, type: 2}
+    - {fileID: 11400000, guid: 7bbc1eb9d46d94b4e9f458edffa387b0, type: 2}

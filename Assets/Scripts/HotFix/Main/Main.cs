@@ -1,3 +1,4 @@
+using cfg;
 using Framework.Runtime;
 using UnityEngine;
 
@@ -12,17 +13,26 @@ namespace HotFix
         {
             m_state.Register(GameApp.State);
             m_view.Register(GameApp.View);
-            Debug.LogError("---------");
-            OnLoadFinished();
+            RegisterTable();
         }
         
         private void OnLoadFinished()
         {
             GameApp.State.ActiveState((int)StateName.PreloadState);
         }
+        /// <summary>
+        /// 加载表格数据
+        /// </summary>
+        private void RegisterTable()
+        {
+            Logger.Log("Main.RegisterTable 加载表格数据");
+            GameTableProxy modelProxy = new GameTableProxy();
+            GameApp.Table.SetITableManager(modelProxy);
+            modelProxy.InitialiseLocalModels(OnLoadFinished);
+        }
         public void OnShutDown()
         {
-            
+            AssetsPoolManager.Instance.ForceReleaseAll();
         }
         public void OnApplicationFocus()
         {

@@ -1,5 +1,8 @@
+using cfg;
 using Framework.EventSystem;
+using Framework.Runtime;
 using Framework.ViewModule;
+using UnityEngine;
 
 namespace HotFix
 {
@@ -17,7 +20,6 @@ namespace HotFix
 
         public override void OnCreate(object data)
         {
-            
         }
 
         public override void OnDelete()
@@ -28,6 +30,8 @@ namespace HotFix
         public override void OnOpen(object data)
         {
             
+            var item = GameApp.Table.GetTableData<TbReward, Reward>(1002);
+            Debug.LogError(item.Name);
         }
 
         public override void OnClose()
