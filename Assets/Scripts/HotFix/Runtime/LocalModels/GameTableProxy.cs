@@ -13,6 +13,13 @@ namespace HotFix
     public class GameTableProxy : ITableManager
     {
         private static Tables _tables;
+        public static Tables Tables
+        {
+            get
+            {
+                return _tables;
+            }
+        }
         private Action _onFinished;
         private int count;
         public void InitialiseLocalModels(Action callBack)

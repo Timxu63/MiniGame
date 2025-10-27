@@ -12,6 +12,8 @@ namespace HotFix
                     "Assets/_Resources/Prefab/Main/UIMain.prefab", true));
                 views.RegisterViewModule(new ViewModuleData((int)ViewName.UILoading, null,
                     "Assets/_Resources/Prefab/Loading/UILoading.prefab", true));
+                views.RegisterViewModule(new ViewModuleData((int)ViewName.UIBattle, null,
+                    "Assets/_Resources/Prefab/Battle/UIBattle.prefab", true));
             }
         }
     }

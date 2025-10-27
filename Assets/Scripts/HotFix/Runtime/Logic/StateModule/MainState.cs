@@ -62,7 +62,10 @@ namespace HotFix
 
         public override void OnExit()
         {
-            
+            GameApp.View.CloseAllView(new int[]
+            {
+                (int)ViewName.UILoading
+            });
         }
 
         public override void RegisterEvents(EventSystemManager manager)

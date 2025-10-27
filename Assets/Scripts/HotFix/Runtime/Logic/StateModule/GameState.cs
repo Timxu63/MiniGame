@@ -1,4 +1,5 @@
 using Framework.EventSystem;
+using Framework.Runtime;
 using Framework.State;
 
 namespace HotFix
@@ -12,7 +13,25 @@ namespace HotFix
 
         public override void OnEnter()
         {
+            AsyncInitAsset();
+        }
+
+        private void AsyncInitAsset()
+        {
             
+        }
+
+        private async void AsyncInitUIAsset()
+        {
+            await GameApp.View.OpenViewTask(ViewName.UIBattle);
+            var uiLoadingViewModule = GameApp.View.GetViewModule<UILoadingViewModule>(ViewName.UILoading);
+            if (uiLoadingViewModule != null)
+            {
+                uiLoadingViewModule.PlayHide(() =>
+                {
+                    GameApp.View.CloseView(ViewName.UILoading);
+                });
+            }
         }
 
         public override void OnUpdate(float deltaTime, float unscaledDeltaTime)
