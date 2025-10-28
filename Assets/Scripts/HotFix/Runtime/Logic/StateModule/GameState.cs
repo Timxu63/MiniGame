@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Framework.EventSystem;
 using Framework.Runtime;
 using Framework.State;
@@ -16,12 +17,18 @@ namespace HotFix
             AsyncInitAsset();
         }
 
-        private void AsyncInitAsset()
+        private async void AsyncInitAsset()
+        {
+            await AsyncInitSceneAsset();
+            await AsyncInitUIAsset();
+        }
+
+        private async Task AsyncInitSceneAsset()
         {
             
         }
 
-        private async void AsyncInitUIAsset()
+        private async Task AsyncInitUIAsset()
         {
             await GameApp.View.OpenViewTask(ViewName.UIBattle);
             var uiLoadingViewModule = GameApp.View.GetViewModule<UILoadingViewModule>(ViewName.UILoading);
@@ -56,7 +63,7 @@ namespace HotFix
 
         public override void OnExit()
         {
-            
+            GameNode.Instance.OnWorldToMain();
         }
 
         public override void RegisterEvents(EventSystemManager manager)

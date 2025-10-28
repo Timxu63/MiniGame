@@ -18,6 +18,13 @@ namespace HotFix
         
         private void OnLoadFinished()
         {
+            #if UNITY_EDITOR
+            if (GameApp.IsEditorScene)
+            {
+                GameApp.State.ActiveState((int)StateName.GameState);
+                return;
+            }
+            #endif
             GameApp.State.ActiveState((int)StateName.PreloadState);
         }
         /// <summary>
