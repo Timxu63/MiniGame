@@ -17,11 +17,41 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 14ce996d168bd7a4aa0463b0428b1213
   m_SerializeEntries:
+  - m_GUID: 01fa4c932b4828941ac33e85b95aadd9
+    m_Address: Assets/_Resources/LocalModel/tbcharactor.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 365516e8b73f9814cb31f1a168e69021
     m_Address: Assets/_Resources/LocalModel/tbreward.bytes
     m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4312bab17a9990642b83348b370e4e29
+    m_Address: Assets/_Resources/LocalModel/tbchapter.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5c33d853534fc704698fd42e11be5251
+    m_Address: Assets/_Resources/LocalModel/tbresource.bytes
+    m_ReadOnly: 0
     m_SerializedLabels:
     - LocalModel
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 890f685d03875bb4782919c604c2fc12
+    m_Address: Assets/_Resources/LocalModel/tbchapter_mission.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c171ba4afc8e9cc47a989665bf667cb5
+    m_Address: Assets/_Resources/LocalModel/tblanguage.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ce202fb7abc39c24b9b0691781c593a7
+    m_Address: Assets/_Resources/LocalModel/tbchapter_wavegroup.bytes
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: d4074e383bdd2424b955f08528e86a1e, type: 2}

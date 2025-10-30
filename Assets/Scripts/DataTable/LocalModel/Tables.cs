@@ -13,16 +13,34 @@ namespace cfg
 {
 public partial class Tables
 {
+    public TbChapter TbChapter {get; }
+    public TbChapter_Mission TbChapterMission {get; }
+    public TbChapter_WaveGroup TbChapterWaveGroup {get; }
+    public TbCharactor TbCharactor {get; }
+    public TbLanguage TbLanguage {get; }
+    public TbResource TbResource {get; }
     public TbReward TbReward {get; }
 
     public Tables(System.Func<string, ByteBuf> loader)
     {
+        TbChapter = new TbChapter(loader("tbchapter"));
+        TbChapterMission = new TbChapter_Mission(loader("tbchapter_mission"));
+        TbChapterWaveGroup = new TbChapter_WaveGroup(loader("tbchapter_wavegroup"));
+        TbCharactor = new TbCharactor(loader("tbcharactor"));
+        TbLanguage = new TbLanguage(loader("tblanguage"));
+        TbResource = new TbResource(loader("tbresource"));
         TbReward = new TbReward(loader("tbreward"));
         ResolveRef();
     }
     
     private void ResolveRef()
     {
+        TbChapter.ResolveRef(this);
+        TbChapterMission.ResolveRef(this);
+        TbChapterWaveGroup.ResolveRef(this);
+        TbCharactor.ResolveRef(this);
+        TbLanguage.ResolveRef(this);
+        TbResource.ResolveRef(this);
         TbReward.ResolveRef(this);
     }
 }

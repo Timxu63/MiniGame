@@ -18,7 +18,7 @@ MonoBehaviour:
   m_GUID: 79c06bf277dbf0a40b5268c7aef9fcb6
   m_SerializeEntries:
   - m_GUID: 8e8e39d409726974dbfc5cd558299e6f
-    m_Address: Assets/_Resources/Prefab/Battle/UIBattle.prefab
+    m_Address: Assets/_Resources/Prefab/UI/Battle/UIBattle.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

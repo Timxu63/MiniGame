@@ -1,3 +1,4 @@
+using Framework.DataModule;
 using Framework.EventSystem;
 using Framework.Logic.Modules;
 using Framework.PersistentData;
@@ -21,6 +22,7 @@ namespace Framework.Runtime
         [SerializeField] public RuntimeManager m_runtime = null;
         [SerializeField] public TableManager m_table = null;
         [SerializeField] public PersistentDataManager m_persistent = null;
+        [SerializeField] public DataModuleManager m_dataModule = null;
         
 #if UNITY_EDITOR
         public static bool IsEditorScene = false;
@@ -63,6 +65,13 @@ namespace Framework.Runtime
         /// 持久化数据管理器
         /// </summary>
         public static PersistentDataManager PersistentData { get; private set; }
+        
+        /// <summary>
+        /// 数据管理器
+        /// </summary>
+        public static DataModuleManager DataModule { get; private set; }
+
+        
         public void OnStarUp()
         {
             Event = m_event;
@@ -74,7 +83,7 @@ namespace Framework.Runtime
             Table = m_table;
             PersistentData = m_persistent;
             m_persistent.OnInit();
-
+            DataModule = m_dataModule;
             IsEditorScene = isEditorScene;
             State.RegisterState(new CheckAssetsState());
             State.ActiveState((int)StateName.CheckAssetsState);

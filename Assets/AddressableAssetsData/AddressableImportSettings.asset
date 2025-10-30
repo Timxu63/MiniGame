@@ -15,9 +15,9 @@ MonoBehaviour:
   rulesEnabled: 1
   allowGroupCreation: 1
   rules:
-  - path: Assets/_Resources/Prefab/*/*.*
+  - path: Assets/_Resources/Prefab/*/*/*.*
     matchType: 0
-    groupName: Prefab/${PATH[3]}
+    groupName: Prefab/${PATH[4]}
     groupTemplate: {fileID: 11400000, guid: e86d7d5449f55b748b74cb986362cd9a, type: 2}
     groupTemplateApplicationMode: 0
     labelRefs: []
@@ -40,7 +40,8 @@ MonoBehaviour:
     groupName: LocalModel
     groupTemplate: {fileID: 11400000, guid: e86d7d5449f55b748b74cb986362cd9a, type: 2}
     groupTemplateApplicationMode: 0
-    labelRefs: []
+    labelRefs:
+    - m_LabelString: LocalModel
     dynamicLabels: []
     LabelMode: 0
     simplified: 0

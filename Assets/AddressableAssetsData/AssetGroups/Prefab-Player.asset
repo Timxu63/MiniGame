@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Prefab-Player
+  m_EditorClassIdentifier: 
+  m_GroupName: Prefab-Player
+  m_Data:
+    m_SerializedData: []
+  m_GUID: a0dff35350e747c41ad63287b3b19166
+  m_SerializeEntries:
+  - m_GUID: de2732603dbf3a043b6eeed9fc3dd2dc
+    m_Address: Assets/_Resources/Prefab/Entity/Player/Player.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: d4074e383bdd2424b955f08528e86a1e, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 99225283735906449b77529b17a4b6da, type: 2}
+    - {fileID: 11400000, guid: 0a215b57854ea3347873cbebea204999, type: 2}

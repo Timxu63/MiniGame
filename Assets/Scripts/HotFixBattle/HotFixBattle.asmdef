@@ -1,0 +1,18 @@
+{
+    "name": "HotFixBattle",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d9ecc455bd9cc3f4498abed47acb1e81",
+        "GUID:2a81c6962524d424a8ef5072bd3b0fa0",
+        "GUID:d64b828f2bfa80344ada8ea1d4f115bc"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

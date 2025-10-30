@@ -12,7 +12,7 @@ using Luban;
 
 namespace cfg
 {
-public partial class TbReward : ITable
+public partial class TbReward
 {
     private readonly System.Collections.Generic.Dictionary<int, Reward> _dataMap;
     private readonly System.Collections.Generic.List<Reward> _dataList;
@@ -38,8 +38,6 @@ public partial class TbReward : ITable
     public Reward Get(int key) => _dataMap[key];
     public Reward this[int key] => _dataMap[key];
     
-    public Luban.BeanBase GetBeanBase(int key) => _dataMap[key];
-
     public void ResolveRef(Tables tables)
     {
         foreach(var _v in _dataList)

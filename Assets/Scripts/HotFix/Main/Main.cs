@@ -8,11 +8,13 @@ namespace HotFix
     {
         private State m_state = new State();
         private View m_view = new View();
+        private DataModule m_dataModule = new DataModule();
         
         public void OnStarUp()
         {
             m_state.Register(GameApp.State);
             m_view.Register(GameApp.View);
+            m_dataModule.Register(GameApp.DataModule);
             RegisterTable();
         }
         

@@ -18,7 +18,7 @@ MonoBehaviour:
   m_GUID: 422b537ccf7f18c49b58db5ea477f7a7
   m_SerializeEntries:
   - m_GUID: 25d804a1fb7fcac45b74b4cc058883ad
-    m_Address: Assets/_Resources/Prefab/Main/UIMain.prefab
+    m_Address: Assets/_Resources/Prefab/UI/Main/UIMain.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

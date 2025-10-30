@@ -40,6 +40,7 @@
         /// <summary>
         /// 进入游戏主页预加载进度跑满
         /// </summary>
-        CC_PreloadUIProgressComplete =7
+        CC_PreloadUIProgressComplete =7,
+        
     }
 }
