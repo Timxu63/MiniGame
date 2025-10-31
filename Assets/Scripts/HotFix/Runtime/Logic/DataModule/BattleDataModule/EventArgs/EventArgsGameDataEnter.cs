@@ -15,7 +15,7 @@ namespace HotFix
         public ModeData ModeData { get; set; }
         public override void Clear()
         {
-            ModeData = null;
+            
         }
     }
 }
