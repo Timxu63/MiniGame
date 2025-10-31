@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using cfg;
+using Framework.Logic.Modules;
+using Framework.Runtime;
 using HotFix;
 
 namespace HotFixBattle
@@ -104,12 +106,16 @@ namespace HotFixBattle
         /// <summary>
         /// 结束战斗
         /// </summary>
-        protected virtual void EndBattle()
+        protected virtual async void EndBattle()
         {
             _currentState = BattleState.Ended;
 
             // 触发战斗结束事件
             // EventSystem.Instance.TriggerEvent(new BattleEndEvent());
+
+            // 所有wave结束后，从gamestate状态切换到mainstate状态
+            
+            GameApp.State.ActiveState((int)StateName.MainState);
         }
 
         /// <summary>

@@ -10,7 +10,6 @@ namespace Framework.Runtime
             //屏幕永不休眠
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
             DontDestroyOnLoad(gameObject);
-                    
             m_gameApp.OnStarUp();
         }
 

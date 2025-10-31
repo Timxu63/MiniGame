@@ -14,9 +14,9 @@ namespace HotFixBattle
 
         public WaveEnteringState(BattleWaveController waveController) : base(waveController) 
         {
-            _enterDuration = 1.0f; // 进入持续时间为1秒
+            _enterDuration = 0.0f; // 进入持续时间为1秒
             BattleWaveChangeEventArgs eventArgs = new BattleWaveChangeEventArgs();
-            eventArgs.MissionId = waveController.WaveGroupData.Id;
+            eventArgs.WaveId = waveController.WaveGroupData.Id;
             GameApp.Event.DispatchNow((int)LocalMessageName.CC_BattleWaveChange, eventArgs);
         }
 

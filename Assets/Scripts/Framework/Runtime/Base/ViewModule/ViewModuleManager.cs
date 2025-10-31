@@ -123,6 +123,7 @@ namespace Framework.ViewModule
             Action<GameObject> loadedCallBack = null,
             Action<GameObject> openedCallBack = null)
         {
+            Logger.Log($"<color=red>[ViewModule]</color>OpenView = {viewName}");
             await OpenViewInternal(viewName, data, layer, loadedCallBack, openedCallBack);
         }
 
@@ -132,7 +133,6 @@ namespace Framework.ViewModule
             Action<GameObject> loadedCallBack = null,
             Action<GameObject> openedCallBack = null)
         {
-            Logger.Log($"<color=red>[ViewModule]</color>OpenView = {viewName}");
             ViewModuleData _viewModuleData = null;
             m_viewModuleDatas.TryGetValue(viewName, out _viewModuleData);
 
@@ -205,7 +205,6 @@ namespace Framework.ViewModule
                     _viewModuleData.m_viewModule.SetLoader(_viewModuleData.m_loader);
 
                     _viewModuleData.m_viewModule.OnCreate(data);
-
                     OpenViewByGameObject(_viewModuleData, data, openedCallBack, layer);
                 }
                 else

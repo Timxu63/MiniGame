@@ -12,7 +12,7 @@ namespace HotFixBattle
 
         public MissionWarningState(BattleMissionController missionController) : base(missionController) 
         {
-            _warningDuration = 2.0f; // 警告持续时间为2秒
+            _warningDuration = 0.0f; // 警告持续时间为0秒
         }
 
         public override void Enter()

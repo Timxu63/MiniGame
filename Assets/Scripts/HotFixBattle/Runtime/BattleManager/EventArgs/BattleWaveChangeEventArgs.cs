@@ -4,7 +4,7 @@ namespace HotFixBattle
 {
     public class BattleWaveChangeEventArgs : BaseEventArgs
     {
-        public int MissionId { get; set; }
+        public int WaveId { get; set; }
 
         public override void Clear()
         {

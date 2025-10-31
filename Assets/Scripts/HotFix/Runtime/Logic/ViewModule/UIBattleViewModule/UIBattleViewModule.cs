@@ -11,18 +11,17 @@ namespace HotFix
         [SerializeField] private TextMeshProUGUI text_Wave;
         public override void RegisterEvents(EventSystemManager manager)
         {
-            manager.RegisterEvent((int)LocalMessageName.CC_BattleWaveChange, BattleMissionChange);
+            manager.RegisterEvent((int)LocalMessageName.CC_BattleWaveChange, BattleWaveChange);
         }
 
         public override void UnRegisterEvents(EventSystemManager manager)
         {
-            manager.UnRegisterEvent((int)LocalMessageName.CC_BattleWaveChange, BattleMissionChange);
+            manager.UnRegisterEvent((int)LocalMessageName.CC_BattleWaveChange, BattleWaveChange);
         }
-        private void BattleMissionChange(int type, BaseEventArgs eventargs)
+        private void BattleWaveChange(int type, BaseEventArgs eventargs)
         {
             BattleWaveChangeEventArgs args = eventargs as BattleWaveChangeEventArgs;
-            text_Wave.text = args.MissionId.ToString();
-            Logger.LogError("BattleMissionChange");
+            text_Wave.text = args.WaveId.ToString();
         }
         public override void OnCreate(object data)
         {

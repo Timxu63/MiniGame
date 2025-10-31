@@ -136,6 +136,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameLauncher
       objectReference: {fileID: 0}
+    - target: {fileID: 8142772181531839076, guid: ac72d99724bdaa340a65c180082098b4, type: 3}
+      propertyPath: isEditorScene
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8881809755568126269, guid: ac72d99724bdaa340a65c180082098b4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

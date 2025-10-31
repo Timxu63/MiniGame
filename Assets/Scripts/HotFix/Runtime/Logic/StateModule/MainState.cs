@@ -28,17 +28,13 @@ namespace HotFix
             }
             else
             {
-                GameApp.View.OpenView(ViewName.UILoading, null, UILayers.Second, null, (loadObj) =>
-                {
-                    var loadingViewModule =
-                        GameApp.View.GetViewModule<UILoadingViewModule>(ViewName.UILoading);
-                    loadingViewModule.PlayHide(OnLoadingEnd);
-                });
+                OnLoadingEnd();
             }
         }
         private void OnLoadingEnd()
         {
-            GameApp.View.CloseView(ViewName.UILoading);
+            if (GameApp.View.IsOpened(ViewName.UILoading))
+                GameApp.View.CloseView(ViewName.UILoading);
         }
         public override void OnUpdate(float deltaTime, float unscaledDeltaTime)
         {

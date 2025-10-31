@@ -21,7 +21,6 @@ namespace Framework.State
         public void ActiveState(int stateName)
         {
             State _state = GetState<State>(stateName);
-            Logger.Log($"<color=red>[State]</color>onEnter StateName = {_state.GetName()}" );
             if (m_currentState != null)
             {
                 Logger.Log($"<color=red>[State]</color>onExit {m_currentState.GetName()} " );
@@ -42,10 +41,10 @@ namespace Framework.State
             //     {"int0", _state.GetName()},
             //     {"int1", 1},
             // });
-            
+            Logger.Log($"<color=red>[State]</color>onEnter StateName = {_state.GetName()}" );
+            m_currentState = _state;
             _state.OnEnter();
             _state.RegisterEvents(m_eventSystemManager);
-            m_currentState = _state;
         }
 
         /// <summary>
