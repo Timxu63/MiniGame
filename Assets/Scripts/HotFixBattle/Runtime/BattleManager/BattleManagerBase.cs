@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using cfg;
 using Framework.Logic.Modules;
 using Framework.Runtime;
+using Game.Logic.BattleModule;
+using Game.Logic.BattleModule.Entity;
 using HotFix;
 
 namespace HotFixBattle
@@ -27,6 +29,12 @@ namespace HotFixBattle
 
             // 初始化章节处理器工厂
             ChapterHandlerFactory.InitializeDefaultHandlers();
+            
+            // 初始化实体管理器
+            SimpleEntityManager.Instance.ClearAllEntities();
+            
+            // 初始化实体生成器
+            EntitySpawner.Instance.InitializeConfigs(_worldContext.Tables);
         }
 
         /// <summary>
@@ -63,6 +71,9 @@ namespace HotFixBattle
             {
                 return;
             }
+
+            // 更新所有实体（包括怪物）
+            SimpleEntityManager.Instance.UpdateAllEntities(deltaTime);
 
             // 更新当前波次
             _currentWaveController?.Update(deltaTime);

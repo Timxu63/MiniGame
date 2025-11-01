@@ -18,7 +18,9 @@ public sealed partial class Charactor : Luban.BeanBase
     {
         Id = _buf.ReadInt();
         Name = _buf.ReadString();
+        Type = (eEntityType)_buf.ReadInt();
         ResourceID = _buf.ReadInt();
+        SurvivalTime = _buf.ReadFloat();
     }
 
     public static Charactor DeserializeCharactor(ByteBuf _buf)
@@ -35,9 +37,17 @@ public sealed partial class Charactor : Luban.BeanBase
     /// </summary>
     public readonly string Name;
     /// <summary>
+    /// 实体类型
+    /// </summary>
+    public readonly eEntityType Type;
+    /// <summary>
     /// 资源路径
     /// </summary>
     public readonly int ResourceID;
+    /// <summary>
+    /// 生存时长
+    /// </summary>
+    public readonly float SurvivalTime;
    
     public const int __ID__ = -726803393;
     public override int GetTypeId() => __ID__;
@@ -51,7 +61,9 @@ public sealed partial class Charactor : Luban.BeanBase
         return "{ "
         + "id:" + Id + ","
         + "name:" + Name + ","
+        + "type:" + Type + ","
         + "ResourceID:" + ResourceID + ","
+        + "survivalTime:" + SurvivalTime + ","
         + "}";
     }
 }

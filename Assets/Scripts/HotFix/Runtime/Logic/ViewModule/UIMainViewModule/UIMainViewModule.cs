@@ -28,10 +28,7 @@ namespace HotFix
 
         private void OnClickJoinBattle()
         {
-            Game.JoinBattle(1, () =>
-            {
-                
-            });
+            Runtime.Logic.Game.JoinBattle(1, null);
         }
 
         public override void OnDelete()

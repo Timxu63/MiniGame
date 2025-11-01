@@ -20,6 +20,8 @@ namespace HotFix
         public override void OnEnter()
         {
             InitWorldContent();
+            // 初始化实体视图管理器
+            EntityViewManager.Instance.Initialize();
             _battleDataModule =
                 GameApp.DataModule.GetDataModule<BattleDataModule>((int)DataName.BattleDataModule);
 #if UNITY_EDITOR
@@ -96,6 +98,8 @@ namespace HotFix
 
         public override void OnExit()
         {
+            // 清理实体视图管理器
+            EntityViewManager.Instance.Cleanup();
             GameApp.View.CloseAllView(new int[]
             {
                 (int)ViewName.UILoading

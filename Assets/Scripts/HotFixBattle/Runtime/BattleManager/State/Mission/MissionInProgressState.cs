@@ -34,7 +34,7 @@ namespace HotFixBattle
             _missionController.UpdateMissionLogic(deltaTime);
 
             // 检查任务是否完成（时间到或者所有怪物被消灭）
-            if (_missionTimer >= _missionDuration || _missionController.AreAllMonstersDefeated())
+            if (_missionTimer >= _missionDuration && _missionController.AreAllMonstersDefeated())
             {
                 string reason = _missionTimer >= _missionDuration ? "时间结束" : "怪物全部消灭";
                 UnityEngine.Debug.Log($"[MissionInProgressState] Update - Mission ID: {_missionController.MissionData.Id}, 任务完成，原因: {reason}");

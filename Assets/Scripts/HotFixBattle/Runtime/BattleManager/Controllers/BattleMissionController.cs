@@ -1,6 +1,8 @@
 
 using System.Collections.Generic;
 using cfg;
+using Game.Logic.BattleModule;
+using Game.Logic.BattleModule.Entity;
 
 namespace HotFixBattle
 {
@@ -91,16 +93,11 @@ namespace HotFixBattle
         /// </summary>
         public void SpawnMonsters()
         {
-            // 这里实现怪物生成逻辑
-            foreach (var monsterId in _missionData.MonsterId)
-            {
-                // 调用怪物生成系统生成怪物
-                // int spawnedMonsterId = MonsterSpawner.SpawnMonster(monsterId);
-                // _spawnedMonsters.Add(spawnedMonsterId);
+            // 使用实体生成器生成怪物
+            var spawnedMonsterIds = EntitySpawner.Instance.SpawnMonstersForMission(_missionData, _worldContext);
+            _spawnedMonsters.AddRange(spawnedMonsterIds);
 
-                // 暂时用占位代码
-                _spawnedMonsters.Add(monsterId);
-            }
+            UnityEngine.Debug.Log($"[BattleMissionController] SpawnMonsters - Mission ID: {_missionData.Id}, 生成了 {spawnedMonsterIds.Count} 个怪物");
         }
 
         /// <summary>
@@ -119,9 +116,19 @@ namespace HotFixBattle
         /// <returns>是否所有怪物都被消灭</returns>
         public bool AreAllMonstersDefeated()
         {
-            // 这里实现检查所有怪物是否都被消灭的逻辑
-            // 暂时返回false，表示需要等待时间结束
-            return false;
+            // 使用实体管理器检查所有生成的怪物是否都被消灭
+            var entityManager = SimpleEntityManager.Instance;
+
+            foreach (var monsterId in _spawnedMonsters)
+            {
+                var monster = entityManager.GetEntity(monsterId);
+                if (monster != null && monster.IsAlive)
+                {
+                    return false; // 如果有存活的怪物，返回false
+                }
+            }
+
+            return true; // 所有怪物都被消灭
         }
 
         /// <summary>
@@ -129,9 +136,11 @@ namespace HotFixBattle
         /// </summary>
         public void CleanupMission()
         {
-            // 这里实现任务结束时的清理逻辑
-            // 比如清理未死亡的怪物等
+            // 使用实体生成器清理怪物
+            EntitySpawner.Instance.ClearMonsters(_spawnedMonsters);
             _spawnedMonsters.Clear();
+
+            UnityEngine.Debug.Log($"[BattleMissionController] CleanupMission - Mission ID: {_missionData.Id}, 清理了 {_spawnedMonsters.Count} 个怪物");
         }
 
         /// <summary>
