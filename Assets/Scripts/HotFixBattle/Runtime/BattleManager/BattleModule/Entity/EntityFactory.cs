@@ -58,6 +58,7 @@ namespace Game.Logic.BattleModule.Entity
                 return new PlayerEntity(
                     playerParams.Name,
                     playerParams.MaxHealth,
+                    playerParams.CharactorConfig,
                     playerParams.Level,
                     playerParams.AttackPower,
                     playerParams.Defense
@@ -79,6 +80,7 @@ namespace Game.Logic.BattleModule.Entity
                 return new MonsterEntity(
                     monsterParams.Name,
                     monsterParams.MaxHealth,
+                    monsterParams.CharactorConfig,
                     monsterParams.Level,
                     monsterParams.AttackPower,
                     monsterParams.Defense,
@@ -102,7 +104,7 @@ namespace Game.Logic.BattleModule.Entity
             // 简单实现，实际项目中可能需要更复杂的NPC类
             if (@params is NPCCreationParams npcParams)
             {
-                return new NPCEntity(npcParams.Name, npcParams.MaxHealth);
+                return new NPCEntity(npcParams.Name, npcParams.MaxHealth, npcParams.CharactorConfig);
             }
 
             throw new ArgumentException("创建NPC实体需要NPCCreationParams参数");
@@ -118,7 +120,7 @@ namespace Game.Logic.BattleModule.Entity
             // 简单实现，实际项目中可能需要更复杂的Object类
             if (@params is ObjectCreationParams objectParams)
             {
-                return new ObjectEntity(objectParams.Name, objectParams.MaxHealth);
+                return new ObjectEntity(objectParams.Name, objectParams.MaxHealth, objectParams.CharactorConfig);
             }
 
             throw new ArgumentException("创建物体实体需要ObjectCreationParams参数");
@@ -132,6 +134,8 @@ namespace Game.Logic.BattleModule.Entity
     {
         public string Name { get; set; }
         public int MaxHealth { get; set; }
+        public Charactor CharactorConfig;
+
     }
 
     /// <summary>

@@ -110,40 +110,12 @@ namespace Game.Logic.BattleModule
         /// <returns>生成的怪物实体</returns>
         public IEntity SpawnMonster(int monsterId, BattleWorldContext worldContext)
         {
-            // 获取角色配置
-            if (!_charactorConfigs.TryGetValue(monsterId, out var charactorConfig))
-            {
-                // 如果缓存中没有，尝试从表格中获取
-                if (worldContext?.Tables?.TbCharactor != null)
-                {
-                    charactorConfig = worldContext.Tables.TbCharactor.Get(monsterId);
-                    if (charactorConfig != null)
-                    {
-                        _charactorConfigs[monsterId] = charactorConfig;
-                    }
-                }
+            var charactorConfig = worldContext.Tables.TbCharactor.Get(monsterId);
 
-                if (charactorConfig == null)
-                {
-                    UnityEngine.Debug.LogError($"未找到角色配置，ID: {monsterId}");
-                    return null;
-                }
-            }
-
-            // 获取资源路径
-            string resourcePath = "";
-            if (_resourceConfigs.TryGetValue(charactorConfig.ResourceID, out var resourceConfig))
+            if (charactorConfig == null)
             {
-                resourcePath = resourceConfig.Path;
-            }
-            else if (worldContext?.Tables?.TbResource != null)
-            {
-                resourceConfig = worldContext.Tables.TbResource.Get(charactorConfig.ResourceID);
-                if (resourceConfig != null)
-                {
-                    _resourceConfigs[charactorConfig.ResourceID] = resourceConfig;
-                    resourcePath = resourceConfig.Path;
-                }
+                UnityEngine.Debug.LogError($"未找到角色配置，ID: {monsterId}");
+                return null;
             }
 
             // 创建怪物参数
@@ -157,7 +129,8 @@ namespace Game.Logic.BattleModule
                 MonsterType = charactorConfig.Type, // 默认怪物类型，可以从配置表获取
                 DropExperience = 10, // 默认经验值，可以从配置表获取
                 DropGold = 5, // 默认金币，可以从配置表获取
-                SurvivalTime = charactorConfig.SurvivalTime // 默认生存时间，可以从配置表获取
+                SurvivalTime = charactorConfig.SurvivalTime, // 默认生存时间，可以从配置表获取
+                CharactorConfig = charactorConfig,          //角色配置
             };
 
             // 使用工厂创建怪物

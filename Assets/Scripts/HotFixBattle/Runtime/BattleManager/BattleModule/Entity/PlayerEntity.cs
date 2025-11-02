@@ -42,7 +42,7 @@ namespace Game.Logic.BattleModule.Entity
         /// <param name="level">玩家等级</param>
         /// <param name="attackPower">攻击力</param>
         /// <param name="defense">防御力</param>
-        public PlayerEntity(string name, int maxHealth, int level = 1, int attackPower = 10, int defense = 5)
+        public PlayerEntity(string name, int maxHealth, Charactor charactor, int level = 1, int attackPower = 10, int defense = 5)
             : base(name, eEntityType.Player, maxHealth)
         {
             Level = level;
@@ -50,6 +50,7 @@ namespace Game.Logic.BattleModule.Entity
             AttackPower = attackPower;
             Defense = defense;
             SkillPoints = 0;
+            Charactor = charactor;
         }
 
         /// <summary>

@@ -39,7 +39,7 @@ namespace Game.Logic.BattleModule.Entity
         /// </summary>
         /// <param name="name">物体名称</param>
         /// <param name="maxHealth">最大生命值</param>
-        public ObjectEntity(string name, int maxHealth)
+        public ObjectEntity(string name, int maxHealth, Charactor charactor)
             : base(name, eEntityType.Object, maxHealth)
         {
             ObjectType = ObjectType.Static;
@@ -47,6 +47,7 @@ namespace Game.Logic.BattleModule.Entity
             IsDestructible = false;
             InteractionRequirement = null;
             DropItemIds = new int[0];
+            Charactor = charactor;
         }
 
         /// <summary>

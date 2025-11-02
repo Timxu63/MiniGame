@@ -53,6 +53,7 @@ namespace Game.Logic.BattleModule.Entity
         /// <returns>实际治疗量</returns>
         int Heal(int amount);
 
+        Charactor Charactor{ get; }
         /// <summary>
         /// 更新实体状态
         /// </summary>

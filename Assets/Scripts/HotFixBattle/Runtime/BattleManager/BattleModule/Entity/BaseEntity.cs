@@ -45,6 +45,10 @@ namespace Game.Logic.BattleModule.Entity
         public int MaxHealth { get; protected set; }
 
         /// <summary>
+        /// 角色数据
+        /// </summary>
+        public Charactor Charactor{ get; protected set; }
+        /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="name">实体名称</param>

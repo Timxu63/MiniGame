@@ -66,7 +66,7 @@ namespace Game.Logic.BattleModule.Entity
         /// <param name="dropExperience">掉落经验值</param>
         /// <param name="dropGold">掉落金币</param>
         /// <param name="survivalTime">生存时间（秒）</param>
-        public MonsterEntity(string name, int maxHealth, int level = 1, int attackPower = 5, 
+        public MonsterEntity(string name, int maxHealth, Charactor charactor, int level = 1, int attackPower = 5, 
             int defense = 2, eEntityType monsterType = eEntityType.Monster, 
             int dropExperience = 10, int dropGold = 5, float survivalTime = 10f)
             : base(name, eEntityType.Monster, maxHealth)
@@ -79,6 +79,7 @@ namespace Game.Logic.BattleModule.Entity
             DropGold = dropGold;
             AIState = MonsterAIState.Idle;
             _maxSurvivalTime = survivalTime;
+            Charactor = charactor;
         }
 
         /// <summary>

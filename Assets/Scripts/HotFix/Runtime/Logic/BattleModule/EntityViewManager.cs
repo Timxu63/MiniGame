@@ -6,19 +6,27 @@ using Framework.EventSystem;
 using Framework.Runtime;
 using Game.Logic.BattleModule.Entity;
 using HotFix;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace HotFixBattle
 {
+    public class EntityViewData
+    {
+        public GameObject View;
+        public Animator Animator;
+        public EntityComponent EntityComponent;
+        //实体没有创建结束时事件缓存
+        public List<BaseEventArgs> cacheEvents = new List<BaseEventArgs>();
+    }
+
     /// <summary>
     /// 实体视图管理器，负责处理实体的视图层逻辑
     /// </summary>
     public class EntityViewManager : Singleton<EntityViewManager>
     {
-        // 实体ID到视图的映射
-        private readonly Dictionary<int, GameObject> _entityViews = new Dictionary<int, GameObject>();
-
-        // 实体ID到动画组件的映射
-        private readonly Dictionary<int, Animator> _entityAnimators = new Dictionary<int, Animator>();
+        // 实体ID到视图数据的映射
+        private readonly Dictionary<int, EntityViewData> _entityViewDatas = new Dictionary<int, EntityViewData>();
 
         /// <summary>
         /// 初始化实体视图管理器
@@ -46,16 +54,15 @@ namespace HotFixBattle
             GameApp.Event.UnRegisterEvent((int)LocalMessageName.CC_EntityDeath, OnEntityDeath);
 
             // 清理所有视图
-            foreach (var view in _entityViews.Values)
+            foreach (var viewData in _entityViewDatas.Values)
             {
-                if (view != null)
+                if (viewData.View != null)
                 {
-                    Object.Destroy(view);
+                    Object.Destroy(viewData.View);
                 }
             }
 
-            _entityViews.Clear();
-            _entityAnimators.Clear();
+            _entityViewDatas.Clear();
         }
 
 
@@ -141,39 +148,19 @@ namespace HotFixBattle
             switch (entity.Type)
             {
                 case eEntityType.Player:
-                    entityView = CreatePlayerView(entity);
+                     CreatePlayerView(entity);
                     break;
                 case eEntityType.Monster:
-                    entityView = CreateMonsterView(entity);
+                case eEntityType.Elite:
+                case eEntityType.Boss:
+                    CreateMonsterView(entity);
                     break;
                 case eEntityType.NPC:
-                    entityView = CreateNPCView(entity);
+                    CreateNPCView(entity);
                     break;
                 case eEntityType.Object:
-                    entityView = CreateObjectView(entity);
+                    CreateObjectView(entity);
                     break;
-            }
-
-            if (entityView != null)
-            {
-                // 设置为EntityRoot的子对象
-                entityView.transform.SetParent(GameNode.Instance.EntityRoot.transform);
-
-                // 保存视图引用
-                _entityViews[entity.Id] = entityView;
-
-                // 获取动画组件
-                var animator = entityView.GetComponent<Animator>();
-                if (animator != null)
-                {
-                    _entityAnimators[entity.Id] = animator;
-                }
-
-                // 添加实体组件引用
-                var entityComponent = entityView.AddComponent<EntityComponent>();
-                entityComponent.Entity = entity;
-
-                Debug.Log($"[EntityViewManager] 创建实体视图: {entity.Name} (ID: {entity.Id}, Type: {entity.Type})");
             }
         }
 
@@ -183,15 +170,14 @@ namespace HotFixBattle
         /// <param name="entityId">实体ID</param>
         private void DestroyEntityView(int entityId)
         {
-            if (_entityViews.TryGetValue(entityId, out var view))
+            if (_entityViewDatas.TryGetValue(entityId, out var viewData))
             {
-                if (view != null)
+                if (viewData.View != null)
                 {
-                    Object.Destroy(view);
+                    Object.Destroy(viewData.View);
                 }
 
-                _entityViews.Remove(entityId);
-                _entityAnimators.Remove(entityId);
+                _entityViewDatas.Remove(entityId);
 
                 Debug.Log($"[EntityViewManager] 销毁实体视图: ID {entityId}");
             }
@@ -204,16 +190,16 @@ namespace HotFixBattle
         /// <param name="damage">伤害值</param>
         private void OnEntityDamaged(int entityId, int damage)
         {
-            if (_entityViews.TryGetValue(entityId, out var view))
+            if (_entityViewDatas.TryGetValue(entityId, out var viewData))
             {
                 // 播放受伤动画
-                if (_entityAnimators.TryGetValue(entityId, out var animator))
+                if (viewData.Animator != null)
                 {
-                    animator.SetTrigger("Damaged");
+                    viewData.Animator.SetTrigger("Damaged");
                 }
 
                 // 显示伤害数字
-                ShowDamageNumber(view.transform.position, damage);
+                ShowDamageNumber(viewData.View.transform.position, damage);
 
                 Debug.Log($"[EntityViewManager] 实体受伤: ID {entityId}, 伤害 {damage}");
             }
@@ -226,10 +212,10 @@ namespace HotFixBattle
         /// <param name="amount">治疗量</param>
         private void OnEntityHealed(int entityId, int amount)
         {
-            if (_entityViews.TryGetValue(entityId, out var view))
+            if (_entityViewDatas.TryGetValue(entityId, out var viewData))
             {
                 // 显示治疗数字
-                ShowHealNumber(view.transform.position, amount);
+                ShowHealNumber(viewData.View.transform.position, amount);
 
                 Debug.Log($"[EntityViewManager] 实体治疗: ID {entityId}, 治疗 {amount}");
             }
@@ -241,16 +227,16 @@ namespace HotFixBattle
         /// <param name="entityId">实体ID</param>
         private void OnEntityDeath(int entityId)
         {
-            if (_entityViews.TryGetValue(entityId, out var view))
+            if (_entityViewDatas.TryGetValue(entityId, out var viewData))
             {
                 // 播放死亡动画
-                if (_entityAnimators.TryGetValue(entityId, out var animator))
+                if (viewData.Animator != null)
                 {
-                    animator.SetTrigger("Death");
+                    viewData.Animator.SetTrigger("Death");
                 }
 
                 // 延迟销毁视图
-                Object.Destroy(view, 2.0f);
+                Object.Destroy(viewData.View, 2.0f);
 
                 Debug.Log($"[EntityViewManager] 实体死亡: ID {entityId}");
             }
@@ -261,33 +247,43 @@ namespace HotFixBattle
         /// </summary>
         /// <param name="entity">玩家实体</param>
         /// <returns>玩家视图游戏对象</returns>
-        private GameObject CreatePlayerView(IEntity entity)
+        private void CreatePlayerView(IEntity entity)
         {
             
-            // 这里应该从资源管理器加载玩家预制体
-            // 暂时创建一个简单的立方体作为占位
-            var playerView = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-            playerView.name = $"Player_{entity.Name}_{entity.Id}";
-
-
-            // 添加碰撞体
-            var collider = playerView.GetComponent<CapsuleCollider>();
-            if (collider != null)
+            // 获取角色配置
+            var charactorConfig = GameTableProxy.Tables.TbCharactor.Get(entity.Id);
+            if (charactorConfig == null)
             {
-                collider.isTrigger = true;
+                Debug.LogError($"[EntityViewManager] 未找到角色配置，ID: {entity.Id}");
+                return;
             }
 
-            // 添加动画组件
-            var animator = playerView.AddComponent<Animator>();
-
-            // 设置材质颜色
-            var renderer = playerView.GetComponent<Renderer>();
-            if (renderer != null)
+            // 获取资源配置
+            var resourceConfig = GameTableProxy.Tables.TbResource.Get(charactorConfig.ResourceID);
+            if (resourceConfig == null)
             {
-                renderer.material.color = Color.blue;
+                Debug.LogError($"[EntityViewManager] 未找到资源配置，ID: {charactorConfig.ResourceID}");;
+                return;
             }
 
-            return playerView;
+            // 通过Addressable加载资源
+            GameObject playerView = null;
+            var loadOperation = Addressables.LoadAssetAsync<GameObject>(resourceConfig.Path);
+            loadOperation.Completed += (op) =>
+            {
+                if (op.Status == AsyncOperationStatus.Succeeded)
+                {
+                    playerView = GameObject.Instantiate(op.Result);
+                    playerView.name = $"Player_{entity.Name}_{entity.Id}";
+                    
+                    // 处理实体视图的通用逻辑
+                    ProcessEntityView(entity, playerView);
+                }
+                else
+                {
+                    Debug.LogError($"[EntityViewManager] 加载资源失败: {resourceConfig.Path}");
+                }
+            };
         }
 
         /// <summary>
@@ -295,32 +291,42 @@ namespace HotFixBattle
         /// </summary>
         /// <param name="entity">怪物实体</param>
         /// <returns>怪物视图游戏对象</returns>
-        private GameObject CreateMonsterView(IEntity entity)
+        private void CreateMonsterView(IEntity entity)
         {
-            // 这里应该从资源管理器加载怪物预制体
-            // 暂时创建一个简单的立方体作为占位
-            var monsterView = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            monsterView.name = $"Monster_{entity.Name}_{entity.Id}";
-         
-
-            // 添加碰撞体
-            var collider = monsterView.GetComponent<BoxCollider>();
-            if (collider != null)
+            // 获取角色配置
+            var charactorConfig = entity.Charactor;
+            if (charactorConfig == null)
             {
-                collider.isTrigger = true;
+                Debug.LogError($"[EntityViewManager] 未找到角色配置，ID: {entity.Charactor.Id}");
+                return;
             }
 
-            // 添加动画组件
-            var animator = monsterView.AddComponent<Animator>();
-
-            // 设置材质颜色
-            var renderer = monsterView.GetComponent<Renderer>();
-            if (renderer != null)
+            // 获取资源配置
+            var resourceConfig = GameTableProxy.Tables.TbResource.Get(charactorConfig.ResourceID);
+            if (resourceConfig == null)
             {
-                renderer.material.color = Color.red;
+                Debug.LogError($"[EntityViewManager] 未找到资源配置，ID: {charactorConfig.ResourceID}");
+                return;
             }
 
-            return monsterView;
+            // 通过Addressable加载资源
+            GameObject monsterView = null;
+            var loadOperation = Addressables.LoadAssetAsync<GameObject>(resourceConfig.Path);
+            loadOperation.Completed += (op) =>
+            {
+                if (op.Status == AsyncOperationStatus.Succeeded)
+                {
+                    monsterView = GameObject.Instantiate(op.Result);
+                    monsterView.name = $"Monster_{entity.Name}_{entity.Id}";
+                    
+                    // 处理实体视图的通用逻辑
+                    ProcessEntityView(entity, monsterView);
+                }
+                else
+                {
+                    Debug.LogError($"[EntityViewManager] 加载资源失败: {resourceConfig.Path}");
+                }
+            };
         }
 
         /// <summary>
@@ -328,31 +334,41 @@ namespace HotFixBattle
         /// </summary>
         /// <param name="entity">NPC实体</param>
         /// <returns>NPC视图游戏对象</returns>
-        private GameObject CreateNPCView(IEntity entity)
+        private void CreateNPCView(IEntity entity)
         {
-            // 这里应该从资源管理器加载NPC预制体
-            // 暂时创建一个简单的圆柱体作为占位
-            var npcView = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-            npcView.name = $"NPC_{entity.Name}_{entity.Id}";
-
-            // 添加碰撞体
-            var collider = npcView.GetComponent<CapsuleCollider>();
-            if (collider != null)
+            // 获取角色配置
+            var charactorConfig = GameTableProxy.Tables.TbCharactor.Get(entity.Id);
+            if (charactorConfig == null)
             {
-                collider.isTrigger = true;
+                Debug.LogError($"[EntityViewManager] 未找到角色配置，ID: {entity.Id}");
+                return;
             }
 
-            // 添加动画组件
-            var animator = npcView.AddComponent<Animator>();
-
-            // 设置材质颜色
-            var renderer = npcView.GetComponent<Renderer>();
-            if (renderer != null)
+            // 获取资源配置
+            var resourceConfig = GameTableProxy.Tables.TbResource.Get(charactorConfig.ResourceID);
+            if (resourceConfig == null)
             {
-                renderer.material.color = Color.green;
+                Debug.LogError($"[EntityViewManager] 未找到资源配置，ID: {charactorConfig.ResourceID}");
+                return;
             }
 
-            return npcView;
+            // 通过Addressable加载资源
+            GameObject npcView = null;
+            var loadOperation = Addressables.LoadAssetAsync<GameObject>(resourceConfig.Path);
+            loadOperation.Completed += (op) =>
+            {
+                if (op.Status == AsyncOperationStatus.Succeeded)
+                {
+                    npcView = GameObject.Instantiate(op.Result);
+                    npcView.name = $"NPC_{entity.Name}_{entity.Id}";
+                    
+                    // 这些通用逻辑已经移到CreateEntityView方法中
+                }
+                else
+                {
+                    Debug.LogError($"[EntityViewManager] 加载资源失败: {resourceConfig.Path}");
+                }
+            };
         }
 
         /// <summary>
@@ -360,29 +376,82 @@ namespace HotFixBattle
         /// </summary>
         /// <param name="entity">物体实体</param>
         /// <returns>物体视图游戏对象</returns>
-        private GameObject CreateObjectView(IEntity entity)
+        private void CreateObjectView(IEntity entity)
         {
-            // 这里应该从资源管理器加载物体预制体
-            // 暂时创建一个简单的球体作为占位
-            var objectView = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            objectView.name = $"Object_{entity.Name}_{entity.Id}";
-
-
-            // 添加碰撞体
-            var collider = objectView.GetComponent<SphereCollider>();
-            if (collider != null)
+            var charactorConfig = GameTableProxy.Tables.TbCharactor.Get(entity.Id);
+            if (charactorConfig == null)
             {
-                collider.isTrigger = true;
+                Debug.LogError($"[EntityViewManager] 未找到角色配置，ID: {entity.Id}");
+                return;
             }
 
-            // 设置材质颜色
-            var renderer = objectView.GetComponent<Renderer>();
-            if (renderer != null)
+            // 获取资源配置
+            var resourceConfig = GameTableProxy.Tables.TbResource.Get(charactorConfig.ResourceID);
+            if (resourceConfig == null)
             {
-                renderer.material.color = Color.yellow;
+                Debug.LogError($"[EntityViewManager] 未找到资源配置，ID: {charactorConfig.ResourceID}");
+                return;
             }
 
-            return objectView;
+            // 通过Addressable加载资源
+            GameObject npcView = null;
+            var loadOperation = Addressables.LoadAssetAsync<GameObject>(resourceConfig.Path);
+            loadOperation.Completed += (op) =>
+            {
+                if (op.Status == AsyncOperationStatus.Succeeded)
+                {
+                    npcView = GameObject.Instantiate(op.Result);
+                    npcView.name = $"NPC_{entity.Name}_{entity.Id}";
+                    
+                    // 这些通用逻辑已经移到CreateEntityView方法中
+                }
+                else
+                {
+                    Debug.LogError($"[EntityViewManager] 加载资源失败: {resourceConfig.Path}");
+                }
+            };
+
+        }
+
+        /// <summary>
+        /// 处理实体视图创建后的通用逻辑
+        /// </summary>
+        /// <param name="entity">实体对象</param>
+        /// <param name="entityView">实体视图游戏对象</param>
+        private void ProcessEntityView(IEntity entity, GameObject entityView)
+        {
+            // 检查实体是否已经死亡
+            if (!entity.IsAlive)
+            {
+                Debug.LogWarning($"[EntityViewManager] 尝试为已死亡的实体创建视图: {entity.Name} (ID: {entity.Id})");
+                
+                // 如果实体已死亡，直接销毁视图
+                Object.Destroy(entityView);
+                return;
+            }
+            
+            // 创建视图数据
+            var viewData = new EntityViewData
+            {
+                View = entityView,
+                Animator = entityView.GetComponent<Animator>(),
+                EntityComponent = entityView.GetComponent<EntityComponent>()
+            };
+            
+            // 确保有EntityComponent
+            if (viewData.EntityComponent == null)
+            {
+                viewData.EntityComponent = entityView.AddComponent<EntityComponent>();
+                viewData.EntityComponent.Entity = entity;
+            }
+            
+            // 设置为EntityRoot的子对象
+            entityView.transform.SetParent(GameNode.Instance.EntityRoot.transform);
+            
+            // 保存视图数据
+            _entityViewDatas[entity.Id] = viewData;
+            
+            Debug.Log($"[EntityViewManager] 创建实体视图: {entity.Name} (ID: {entity.Id}, Type: {entity.Type})");
         }
 
         /// <summary>
