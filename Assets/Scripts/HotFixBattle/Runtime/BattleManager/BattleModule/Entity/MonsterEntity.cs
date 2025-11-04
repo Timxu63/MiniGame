@@ -68,7 +68,7 @@ namespace Game.Logic.BattleModule.Entity
         /// <param name="survivalTime">生存时间（秒）</param>
         public MonsterEntity(string name, int maxHealth, Charactor charactor, int level = 1, int attackPower = 5, 
             int defense = 2, eEntityType monsterType = eEntityType.Monster, 
-            int dropExperience = 10, int dropGold = 5, float survivalTime = 10f)
+            int dropExperience = 10, int dropGold = 5, float survivalTime = 10f, int chapterId = 1)
             : base(name, eEntityType.Monster, maxHealth)
         {
             Level = level;
@@ -80,7 +80,15 @@ namespace Game.Logic.BattleModule.Entity
             AIState = MonsterAIState.Idle;
             _maxSurvivalTime = survivalTime;
             Charactor = charactor;
+
+            // 存储章节ID，用于获取AI参数
+            ChapterId = chapterId;
         }
+
+        /// <summary>
+        /// 章节ID，用于获取AI参数
+        /// </summary>
+        public int ChapterId { get; private set; }
 
         /// <summary>
         /// 重写受到伤害方法

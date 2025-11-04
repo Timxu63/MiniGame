@@ -4,6 +4,7 @@ using Framework.EventSystem;
 using Framework.Runtime;
 using cfg;
 using HotFixBattle;
+using UnityEngine;
 
 namespace Game.Logic.BattleModule.Entity
 {
@@ -48,6 +49,11 @@ namespace Game.Logic.BattleModule.Entity
         /// 角色数据
         /// </summary>
         public Charactor Charactor{ get; protected set; }
+
+        /// <summary>
+        /// 实体位置
+        /// </summary>
+        public Vector3 Position { get; set; }
         /// <summary>
         /// 构造函数
         /// </summary>

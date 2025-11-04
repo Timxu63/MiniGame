@@ -20,6 +20,7 @@ public sealed partial class Chapter : Luban.BeanBase
         Name = _buf.ReadString();
         Type = (eChapterType)_buf.ReadInt();
         {int __n0 = System.Math.Min(_buf.ReadSize(), _buf.Size);WaveGroups = new int[__n0];for(var __index0 = 0 ; __index0 < __n0 ; __index0++) { int __e0;__e0 = _buf.ReadInt(); WaveGroups[__index0] = __e0;}}
+        AIParam = _buf.ReadString();
     }
 
     public static Chapter DeserializeChapter(ByteBuf _buf)
@@ -43,6 +44,10 @@ public sealed partial class Chapter : Luban.BeanBase
     /// 章节组
     /// </summary>
     public readonly int[] WaveGroups;
+    /// <summary>
+    /// ai参数
+    /// </summary>
+    public readonly string AIParam;
    
     public const int __ID__ = -1891298259;
     public override int GetTypeId() => __ID__;
@@ -58,6 +63,7 @@ public sealed partial class Chapter : Luban.BeanBase
         + "name:" + Name + ","
         + "type:" + Type + ","
         + "waveGroups:" + Luban.StringUtil.CollectionToString(WaveGroups) + ","
+        + "AIParam:" + AIParam + ","
         + "}";
     }
 }

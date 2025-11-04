@@ -12,5 +12,7 @@ namespace HotFixBattle
         CC_EntityDamaged,
         CC_EntityHealed,
         CC_EntityDeath,
+        CC_EntityMove,
+        CC_EntityAttack,
     }
 }

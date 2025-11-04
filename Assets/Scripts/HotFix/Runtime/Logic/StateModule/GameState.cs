@@ -4,6 +4,7 @@ using Framework.EventSystem;
 using Framework.Runtime;
 using Framework.State;
 using HotFixBattle;
+using HotFixBattle.AI;
 
 namespace HotFix
 {
@@ -22,6 +23,7 @@ namespace HotFix
             InitWorldContent();
             // 初始化实体视图管理器
             EntityViewManager.Instance.Initialize();
+            AIManager.Instance.Initialize(_worldContext);
             _battleDataModule =
                 GameApp.DataModule.GetDataModule<BattleDataModule>((int)DataName.BattleDataModule);
 #if UNITY_EDITOR

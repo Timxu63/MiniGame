@@ -6,6 +6,7 @@ using Framework.EventSystem;
 using Framework.Runtime;
 using Game.Logic.BattleModule.Entity;
 using HotFix;
+using HotFixBattle.AI;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
@@ -39,6 +40,8 @@ namespace HotFixBattle
             GameApp.Event.RegisterEvent((int)LocalMessageName.CC_EntityDamaged, OnEntityDamaged);
             GameApp.Event.RegisterEvent((int)LocalMessageName.CC_EntityHealed, OnEntityHealed);
             GameApp.Event.RegisterEvent((int)LocalMessageName.CC_EntityDeath, OnEntityDeath);
+            GameApp.Event.RegisterEvent((int)LocalMessageName.CC_EntityMove, OnEntityMove);
+            GameApp.Event.RegisterEvent((int)LocalMessageName.CC_EntityAttack, OnEntityAttack);
         }
 
         /// <summary>
@@ -52,6 +55,8 @@ namespace HotFixBattle
             GameApp.Event.UnRegisterEvent((int)LocalMessageName.CC_EntityDamaged, OnEntityDamaged);
             GameApp.Event.UnRegisterEvent((int)LocalMessageName.CC_EntityHealed, OnEntityHealed);
             GameApp.Event.UnRegisterEvent((int)LocalMessageName.CC_EntityDeath, OnEntityDeath);
+            GameApp.Event.UnRegisterEvent((int)LocalMessageName.CC_EntityMove, OnEntityMove);
+            GameApp.Event.UnRegisterEvent((int)LocalMessageName.CC_EntityAttack, OnEntityAttack);
 
             // 清理所有视图
             foreach (var viewData in _entityViewDatas.Values)
@@ -447,7 +452,7 @@ namespace HotFixBattle
             
             // 设置为EntityRoot的子对象
             entityView.transform.SetParent(GameNode.Instance.EntityRoot.transform);
-            
+            entityView.transform.localPosition = Vector3.zero;
             // 保存视图数据
             _entityViewDatas[entity.Id] = viewData;
             
@@ -476,6 +481,60 @@ namespace HotFixBattle
             // 这里应该创建治疗数字UI并显示在指定位置
             // 暂时只在控制台输出
             Debug.Log($"[EntityViewManager] 显示治疗数字: {amount} 在位置 {position}");
+        }
+
+        /// <summary>
+        /// 实体移动事件处理
+        /// </summary>
+        /// <param name="type">事件类型</param>
+        /// <param name="eventArgs">事件参数</param>
+        private void OnEntityMove(int type, BaseEventArgs eventArgs)
+        {
+            if (eventArgs is EntityMoveEventArgs args)
+            {
+                if (_entityViewDatas.TryGetValue(args.EntityId, out var viewData))
+                {
+                    // 更新实体视图位置
+                    viewData.View.transform.position = args.Position;
+
+                    // 更新实体位置
+                    if (viewData.EntityComponent != null && viewData.EntityComponent.Entity != null)
+                    {
+                        viewData.EntityComponent.Entity.SetPosition(args.Position);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 实体攻击事件处理
+        /// </summary>
+        /// <param name="type">事件类型</param>
+        /// <param name="eventArgs">事件参数</param>
+        private void OnEntityAttack(int type, BaseEventArgs eventArgs)
+        {
+            if (eventArgs is EntityAttackEventArgs args)
+            {
+                // 播放攻击动画
+                if (_entityViewDatas.TryGetValue(args.AttackerId, out var attackerView))
+                {
+                    if (attackerView.Animator != null)
+                    {
+                        attackerView.Animator.SetTrigger("Attack");
+                    }
+                }
+
+                // 播放受击动画
+                if (_entityViewDatas.TryGetValue(args.TargetId, out var targetView))
+                {
+                    if (targetView.Animator != null)
+                    {
+                        targetView.Animator.SetTrigger("Hit");
+                    }
+                }
+
+                Debug.Log($"[EntityViewManager] 实体攻击: 攻击者 {args.AttackerId} 目标 {args.TargetId}");
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 
 using System;
 using cfg;
+using UnityEngine;
 
 namespace Game.Logic.BattleModule.Entity
 {
@@ -59,5 +60,10 @@ namespace Game.Logic.BattleModule.Entity
         /// </summary>
         /// <param name="deltaTime">时间增量</param>
         void Update(float deltaTime);
+
+        /// <summary>
+        /// 实体位置
+        /// </summary>
+        Vector3 Position { get; set; }
     }
 }
