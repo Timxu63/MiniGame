@@ -2,38 +2,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using cfg;
+using Framework;
 
 namespace Game.Logic.BattleModule.Entity
 {
     /// <summary>
     /// 简单实体管理器，用于管理游戏中的所有实体
     /// </summary>
-    public class SimpleEntityManager
+    public class SimpleEntityManager : Singleton<SimpleEntityManager>
     {
-        private static SimpleEntityManager _instance;
         private readonly Dictionary<int, IEntity> _entities;
         private readonly Dictionary<eEntityType, List<IEntity>> _entitiesByType;
         private int _nextId = 1;
 
         /// <summary>
-        /// 获取实体管理器实例
-        /// </summary>
-        public static SimpleEntityManager Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new SimpleEntityManager();
-                }
-                return _instance;
-            }
-        }
-
-        /// <summary>
         /// 私有构造函数，实现单例模式
         /// </summary>
-        private SimpleEntityManager()
+        public SimpleEntityManager()
         {
             _entities = new Dictionary<int, IEntity>();
             _entitiesByType = new Dictionary<eEntityType, List<IEntity>>();
