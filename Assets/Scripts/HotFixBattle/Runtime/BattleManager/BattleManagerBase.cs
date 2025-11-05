@@ -35,6 +35,8 @@ namespace HotFixBattle
             
             // 初始化实体生成器
             EntitySpawner.Instance.InitializeConfigs(_worldContext.Tables);
+            
+            // MapManager.Instance.Initialize();
         }
 
         /// <summary>
@@ -120,12 +122,15 @@ namespace HotFixBattle
         protected virtual async void EndBattle()
         {
             _currentState = BattleState.Ended;
-
+            
+            // 初始化实体管理器
+            SimpleEntityManager.Instance.ClearAllEntities();
+            // MapManager.Instance.Clear();
+            
             // 触发战斗结束事件
             // EventSystem.Instance.TriggerEvent(new BattleEndEvent());
 
             // 所有wave结束后，从gamestate状态切换到mainstate状态
-            
             GameApp.State.ActiveState((int)StateName.MainState);
         }
 
