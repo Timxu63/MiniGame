@@ -77,6 +77,7 @@ namespace HotFix
         {
             _worldContext = new BattleWorldContext();
             _worldContext.Tables = GameTableProxy.Tables;
+            MapManager.Instance.Initialize(_worldContext);
         }
         public override void OnUpdate(float deltaTime, float unscaledDeltaTime)
         {

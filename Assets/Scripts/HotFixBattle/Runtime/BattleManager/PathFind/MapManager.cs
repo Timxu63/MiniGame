@@ -37,6 +37,7 @@ namespace HotFixBattle
         private const int DEFAULT_MAP_WIDTH = 100;
         private const int DEFAULT_MAP_HEIGHT = 100;
 
+        private BattleWorldContext m_battleWorldContext;
         #endregion
 
         #region 公共属性
@@ -73,8 +74,9 @@ namespace HotFixBattle
         /// <summary>
         /// 初始化地图管理器
         /// </summary>
-        public void Initialize()
+        public void Initialize(BattleWorldContext worldContext)
         {
+            m_battleWorldContext = worldContext;
             Initialize(DEFAULT_MAP_WIDTH, DEFAULT_MAP_HEIGHT, _cellSize);
         }
 
