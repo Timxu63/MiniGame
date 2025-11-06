@@ -278,9 +278,6 @@ namespace HotFixBattle
                 gridTargets[i] = (gridPos, targets[i].radius / _cellSize);
             }
 
-            // 更新障碍物地图
-            UpdateObstacleMap();
-
             // 膨胀障碍物
             FlowFieldCalculator.InflateObstacles(_flowFieldData, unitRadius);
 
@@ -327,20 +324,6 @@ namespace HotFixBattle
         #endregion
 
         #region 私有方法
-
-        /// <summary>
-        /// 更新障碍物地图
-        /// </summary>
-        private void UpdateObstacleMap()
-        {
-            for (int x = 0; x < _width; x++)
-            {
-                for (int y = 0; y < _height; y++)
-                {
-                    _flowFieldData.obstacleMap[x, y] = !_grid[x, y].IsWalkable;
-                }
-            }
-        }
 
         /// <summary>
         /// 更新单个格子的障碍物信息
