@@ -1,173 +1,237 @@
 using Framework.EventSystem;
 using Framework.Runtime;
 using Framework.ViewModule;
+using HotFix;
 using HotFixBattle;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using LocalMessageName = HotFixBattle.LocalMessageName;
 
-namespace HotFix
+public class UIBattleViewModule : BaseViewModule
 {
-    public class UIBattleViewModule : BaseViewModule, IPointerDownHandler, IDragHandler, IPointerUpHandler
+    [SerializeField] private TextMeshProUGUI text_Wave;
+    [Header("摇杆UI")]
+    public RectTransform rockerBackground;
+    public RectTransform rockerHandle;
+    public float rockerHandleRange = 64f;
+    public float rockerExpansionFactor = 1.5f;
+
+    [Header("技能UI集合")]
+    public SkillUI[] skills;
+
+    private Camera uiCamera;
+    public Vector2 MoveDirection { get; private set; }
+
+    private Rect rockerExpandedArea;
+    private int rockerFingerId = -1;
+    private bool rockerDragging = false;
+
+
+    public override void OnOpen(object data)
     {
-        [SerializeField] private TextMeshProUGUI text_Wave;
-        [SerializeField] private RectTransform rockerBackground; // 摇杆背景
-        [SerializeField] private RectTransform rockerHandle;     // 摇杆手柄
+        uiCamera = GameApp.View.UICamera;
+        // 初始化摇杆区域
+        Vector2 anchoredPosition = rockerBackground.anchoredPosition;
+        Vector2 sizeDelta = rockerBackground.sizeDelta;
+        rockerExpandedArea = new Rect(
+            anchoredPosition.x - (sizeDelta.x * rockerExpansionFactor * 0.5f),
+            anchoredPosition.y - (sizeDelta.y * rockerExpansionFactor * 0.5f),
+            sizeDelta.x * rockerExpansionFactor,
+            sizeDelta.y * rockerExpansionFactor
+        );
 
-        [Header("扩展点击区域设置")]
-        [SerializeField] private float expansionFactor = 1f; // 扩展因子
-
-        [Header("摇杆参数")]
-        [SerializeField] private float handleRange = 2;      // 手柄最大偏移
-
-        public Vector2 Direction { get; private set; }
-        private Rect expandedRockerArea;
-        private bool isDragging;
-
-        public override void RegisterEvents(EventSystemManager manager)
+        for (int i = 0; i < skills.Length; i++)
         {
-            manager.RegisterEvent((int)LocalMessageName.CC_BattleWaveChange, BattleWaveChange);
+            skills[i].Init(i);
         }
+    }
 
-        public override void UnRegisterEvents(EventSystemManager manager)
-        {
-            manager.UnRegisterEvent((int)LocalMessageName.CC_BattleWaveChange, BattleWaveChange);
-        }
 
-        public override void OnCreate(object data)
-        {
-            
-        }
+    public override void OnUpdate(float deltaTime, float unscaledDeltaTime)
+    {
+#if UNITY_EDITOR
+        HandleMouseSimulation();
+#else
+        HandleTouchInput();
+#endif
+    }
 
-        public override void OnDelete()
-        {
-            
-        }
+    public override void RegisterEvents(EventSystemManager manager)
+    {
+        manager.RegisterEvent((int)LocalMessageName.CC_BattleWaveChange, BattleWaveChange);
+    }
 
-        private void BattleWaveChange(int type, BaseEventArgs eventargs)
-        {
-            if (eventargs is BattleWaveChangeEventArgs args)
-                text_Wave.text = args.WaveId.ToString();
-        }
+    public override void UnRegisterEvents(EventSystemManager manager)
+    {
+        manager.UnRegisterEvent((int)LocalMessageName.CC_BattleWaveChange, BattleWaveChange);
+    }
+    private void BattleWaveChange(int type, BaseEventArgs eventargs)
+    {
+        if (eventargs is BattleWaveChangeEventArgs args)
+            text_Wave.text = args.WaveId.ToString();
+    }
+    public override void OnCreate(object data)
+    {
+        
+    }
+    // 判断触点是否在摇杆扩展区域内
+    private bool IsInRockerExpandedArea(Vector2 screenPoint)
+    {
+        Vector2 localPos;
+        RectTransform parentRect = rockerBackground.parent as RectTransform;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            parentRect,
+            screenPoint,
+            uiCamera,
+            out localPos
+        );
+        return rockerExpandedArea.Contains(localPos);
+    }
 
-        private void OnBattleDirectionChange(int type, BaseEventArgs eventargs)
+    // ============ 触摸处理 ============
+    private void HandleTouchInput()
+    {
+        for (int i = 0; i < Input.touchCount; i++)
         {
-            if (eventargs is DirectionChangedEventArgs args)
+            Touch touch = Input.GetTouch(i);
+
+            // --- 摇杆逻辑 ---
+            if (touch.phase == TouchPhase.Began && rockerFingerId == -1 && IsInRockerExpandedArea(touch.position))
             {
-                // Handle direction change
+                rockerFingerId = touch.fingerId;
+                rockerDragging = true;
+                DragRocker(touch.position);
+                continue;
             }
-        }
-
-        public override void OnOpen(object data)
-        {
-            // 只在打开时计算固定扩展区域
-            Vector2 anchoredPosition = rockerBackground.anchoredPosition;
-            Vector2 sizeDelta = rockerBackground.sizeDelta;
-
-            expandedRockerArea = new Rect(
-                anchoredPosition.x - (sizeDelta.x * expansionFactor * 0.5f),
-                anchoredPosition.y - (sizeDelta.y * expansionFactor * 0.5f),
-                sizeDelta.x * expansionFactor,
-                sizeDelta.y * expansionFactor
-            );
-        }
-
-        public override void OnClose()
-        {
-            
-        }
-
-        public override void OnUpdate(float deltaTime, float unscaledDeltaTime)
-        {
-            if (Application.isMobilePlatform)
-                HandleTouchInput();
-            else
-                HandleMouseInput();
-        }
-
-        private bool IsInExpandedArea(Vector2 screenPoint)
-        {
-            Vector2 localPos;
-
-            RectTransform parentRect = rockerBackground.parent as RectTransform; // UIBattle
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                parentRect,
-                screenPoint,
-                GameApp.View.UICamera, // Overlay 模式传 null；Camera 模式传 UI Camera
-                out localPos
-            );
-            return expandedRockerArea.Contains(localPos);
-        }
-
-        private void DragRocker(Vector2 screenPosition)
-        {
-            Vector2 localPos;
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                rockerBackground,
-                screenPosition,
-                GameApp.View.UICamera,
-                out localPos
-            );
-            localPos = Vector2.ClampMagnitude(localPos, handleRange);
-            rockerHandle.anchoredPosition = localPos;
-            Direction = localPos / handleRange;
-        }
-
-        public void OnPointerDown(PointerEventData eventData)
-        {
-            if (IsInExpandedArea(eventData.position))
+            if ((touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary) && touch.fingerId == rockerFingerId && rockerDragging)
             {
-                DragRocker(eventData.position);
-                isDragging = true;
+                DragRocker(touch.position);
+                continue;
             }
-        }
-
-        public void OnDrag(PointerEventData eventData)
-        {
-            if (isDragging)
-                DragRocker(eventData.position);
-        }
-
-        public void OnPointerUp(PointerEventData eventData)
-        {
-            if (isDragging && Direction != Vector2.zero)
+            if ((touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled) && touch.fingerId == rockerFingerId)
             {
-                var args = new DirectionChangedEventArgs { Direction = Direction };
-                GameApp.Event.DispatchNow((int)LocalMessageName.CC_RockerMove, args);
+                ResetRocker();
+                continue;
             }
-            isDragging = false;
-            rockerHandle.anchoredPosition = Vector2.zero;
-            Direction = Vector2.zero;
-        }
 
-        private void HandleTouchInput()
-        {
-            if (Input.touchCount > 0)
+            // --- 多技能逻辑 ---
+            foreach (var skill in skills)
             {
-                Touch touch = Input.GetTouch(0);
-
-                if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
+                if (touch.phase == TouchPhase.Began && skill.IsFree() && RectTransformUtility.RectangleContainsScreenPoint(skill.button, touch.position, uiCamera))
                 {
-                    if (IsInExpandedArea(touch.position))
-                        DragRocker(touch.position);
+                    skill.OnBeginFinger(touch.fingerId, touch.position, uiCamera);
                 }
-                else if (touch.phase == TouchPhase.Ended)
+                else if ((touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary) && skill.IsFingerActive(touch.fingerId))
                 {
-                    OnPointerUp(null);
+                    skill.OnMoveFinger(touch.position, uiCamera);
+                }
+                else if ((touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled) && skill.IsFingerActive(touch.fingerId))
+                {
+                    skill.OnEndFinger(touch.position);
+                }
+            }
+        }
+    }
+
+    // ============ 鼠标模拟（PC） ============
+    private void HandleMouseSimulation()
+    {
+        // 左键模拟摇杆
+        if (Input.GetMouseButtonDown(0) && IsInRockerExpandedArea(Input.mousePosition))
+        {
+            rockerDragging = true;
+            DragRocker(Input.mousePosition);
+        }
+        if (Input.GetMouseButton(0) && rockerDragging)
+        {
+            DragRocker(Input.mousePosition);
+        }
+        if (Input.GetMouseButtonUp(0) && rockerDragging)
+        {
+            ResetRocker();
+        }
+
+        // =============================
+        // 技能按钮检测（左键）
+        // =============================
+        if (Input.GetMouseButtonDown(0))
+        {
+            // 循环检测所有技能按钮
+            for (int i = 0; i < skills.Length; i++)
+            {
+                var skill = skills[i];
+
+                if (skill.IsFree() &&
+                    RectTransformUtility.RectangleContainsScreenPoint(skill.button, Input.mousePosition, uiCamera))
+                {
+                    // 用负数伪 fingerId 避免和触屏冲突
+                    skill.OnBeginFinger(-1000 - i, Input.mousePosition, uiCamera);
+                    break; // 点中一个技能就停止检测
                 }
             }
         }
 
-        private void HandleMouseInput()
+        if (Input.GetMouseButton(0))
         {
-            if (Input.GetMouseButtonDown(0) && IsInExpandedArea(Input.mousePosition))
-                DragRocker(Input.mousePosition);
-
-            if (Input.GetMouseButton(0) && IsInExpandedArea(Input.mousePosition))
-                DragRocker(Input.mousePosition);
-
-            if (Input.GetMouseButtonUp(0))
-                OnPointerUp(null);
+            for (int i = 0; i < skills.Length; i++)
+            {
+                var skill = skills[i];
+                if (skill.IsFingerActive(-1000 - i))
+                {
+                    skill.OnMoveFinger(Input.mousePosition, uiCamera);
+                }
+            }
         }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            for (int i = 0; i < skills.Length; i++)
+            {
+                var skill = skills[i];
+                if (skill.IsFingerActive(-1000 - i))
+                {
+                    skill.OnEndFinger(Input.mousePosition);
+                    break;
+                }
+            }
+        }
+    }
+
+    // 拖动摇杆
+    private void DragRocker(Vector2 screenPosition)
+    {
+        Vector2 localPos;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            rockerBackground,
+            screenPosition,
+            uiCamera,
+            out localPos
+        );
+        localPos = Vector2.ClampMagnitude(localPos, rockerHandleRange);
+        rockerHandle.anchoredPosition = localPos;
+        MoveDirection = localPos / rockerHandleRange;
+        
+        var args = new DirectionChangedEventArgs { Direction = MoveDirection };
+        GameApp.Event.DispatchNow((int)LocalMessageName.CC_PlayerMove, args);
+    }
+
+    // 重置摇杆
+    private void ResetRocker()
+    {
+        rockerDragging = false;
+        rockerFingerId = -1;
+        rockerHandle.anchoredPosition = Vector2.zero;
+        MoveDirection = Vector2.zero;
+    }
+
+
+    public override void OnClose()
+    {
+        
+    }
+    public override void OnDelete()
+    {
+        
     }
 }

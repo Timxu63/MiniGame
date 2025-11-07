@@ -14,5 +14,7 @@ namespace HotFixBattle
         CC_EntityDeath,
         CC_EntityMove,
         CC_EntityAttack,
+        CC_PlayerMove,
+
     }
 }

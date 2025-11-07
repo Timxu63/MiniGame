@@ -11,8 +11,6 @@ namespace HotFix
         CC_EntityDamaged,
         CC_EntityHealed,
         CC_EntityDeath,
-        
-        CC_RockerMove,// 摇杆移动
         #endregion
     }
 }
