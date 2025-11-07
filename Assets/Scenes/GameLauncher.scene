@@ -132,9 +132,41 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114713370371298432, guid: ac72d99724bdaa340a65c180082098b4, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 114713370371298432, guid: ac72d99724bdaa340a65c180082098b4, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
+    - target: {fileID: 461240098601878600, guid: ac72d99724bdaa340a65c180082098b4, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 461240098601878600, guid: ac72d99724bdaa340a65c180082098b4, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
     - target: {fileID: 2179186320923930928, guid: ac72d99724bdaa340a65c180082098b4, type: 3}
       propertyPath: m_Name
       value: GameLauncher
+      objectReference: {fileID: 0}
+    - target: {fileID: 3778025199657172514, guid: ac72d99724bdaa340a65c180082098b4, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 3778025199657172514, guid: ac72d99724bdaa340a65c180082098b4, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
+    - target: {fileID: 6465368607564572479, guid: ac72d99724bdaa340a65c180082098b4, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 6465368607564572479, guid: ac72d99724bdaa340a65c180082098b4, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
       objectReference: {fileID: 0}
     - target: {fileID: 8142772181531839076, guid: ac72d99724bdaa340a65c180082098b4, type: 3}
       propertyPath: isEditorScene

@@ -17,7 +17,7 @@ namespace Framework.Runtime
             var parentRect = t.parent.GetComponent<RectTransform>().rect;
             var top = GetTopHeight()/Screen.height*parentRect.height;
             var bottom = GetBottomHeight()/Screen.height*parentRect.height;
-            var weight = 1080f;
+            var weight = 1920f;
             var parentWeight = parentRect.width;
             var delta = (parentWeight - weight) / 2;
             //offsetMin.x : Left

@@ -254,13 +254,13 @@ namespace HotFixBattle.AI
             {
                 // 使用默认的JSON配置
                 string defaultAIParam = @"{
-                    aiType: 2,
-                    moveSpeed: 2.0,
-                    detectionRange: 5.0,
-                    attackRange: 1.0,
-                    attackCooldown: 1.0,
-                    patrolRadius: 3.0,
-                    fleeThreshold: 0.3
+                    ""aiType"": 2,
+                    ""moveSpeed"": 2.0,
+                    ""detectionRange"": 5.0,
+                    ""attackRange"": 1.0,
+                    ""attackCooldown"": 1.0,
+                    ""patrolRadius"": 3.0,
+                    ""fleeThreshold"": 0.3
                 }";
                 aiConfig = new cfg.AIConfig(defaultAIParam);
             }
