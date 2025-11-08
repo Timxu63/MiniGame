@@ -137,6 +137,9 @@ public class UIBattleViewModule : BaseViewModule
     // ============ 鼠标模拟（PC） ============
     private void HandleMouseSimulation()
     {
+        // 键盘方向键移动
+        HandleKeyboardInput();
+
         // 左键模拟摇杆
         if (Input.GetMouseButtonDown(0) && IsInRockerExpandedArea(Input.mousePosition))
         {
@@ -223,6 +226,56 @@ public class UIBattleViewModule : BaseViewModule
         rockerFingerId = -1;
         rockerHandle.anchoredPosition = Vector2.zero;
         MoveDirection = Vector2.zero;
+    }
+
+    // 处理键盘输入
+    private void HandleKeyboardInput()
+    {
+        Vector2 keyboardDirection = Vector2.zero;
+
+        // 检测上下左右键
+        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+        {
+            keyboardDirection.y = 1f;
+        }
+        if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+        {
+            keyboardDirection.y = -1f;
+        }
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+        {
+            keyboardDirection.x = -1f;
+        }
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+        {
+            keyboardDirection.x = 1f;
+        }
+
+        // 如果有键盘输入
+        if (keyboardDirection != Vector2.zero)
+        {
+            // 标准化方向向量
+            keyboardDirection = keyboardDirection.normalized;
+
+            // 更新移动方向
+            MoveDirection = keyboardDirection;
+
+            // 更新摇杆UI位置
+            rockerHandle.anchoredPosition = MoveDirection * rockerHandleRange;
+
+            // 发送移动事件
+            var args = new DirectionChangedEventArgs { Direction = MoveDirection };
+            GameApp.Event.DispatchNow((int)LocalMessageName.CC_PlayerMove, args);
+        }
+        // 如果没有键盘输入且摇杆不是被鼠标拖拽状态
+        else if (!rockerDragging)
+        {
+            // 如果之前有移动，重置移动
+            if (MoveDirection != Vector2.zero)
+            {
+                ResetRocker();
+            }
+        }
     }
 
 
