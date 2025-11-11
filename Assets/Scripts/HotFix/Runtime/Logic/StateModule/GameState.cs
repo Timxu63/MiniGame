@@ -14,6 +14,7 @@ namespace HotFix
         private BattleFlowController _battleFlowController;
         private BattleDataModule _battleDataModule;
         private BattleWorldContext _worldContext;
+        private CameraManager _cameraManager;
         public override int GetName()
         {
             return (int) StateName.GameState;
@@ -21,6 +22,7 @@ namespace HotFix
 
         public override void OnEnter()
         {
+            AsyncInitCamera();
             InitWorldContent();
             // 初始化实体视图管理器
             EntityViewManager.Instance.Initialize();
@@ -50,6 +52,12 @@ namespace HotFix
             await AsyncInitUIAsset();
             await AsyncInitPlayer();
             OnAsyncFinish();
+        }
+
+        private async Task AsyncInitCamera()
+        {
+            _cameraManager = new CameraManager();
+            _cameraManager.InitCamera();
         }
 
         private async Task AsyncInitPlayer()
@@ -100,6 +108,12 @@ namespace HotFix
         {
             _battleFlowController.StartBattle(_battleDataModule.m_openBattleData.ModeData.ChapterId);
         }
+
+        public override void OnLateUpdate(float deltaTime, float unscaledDeltaTime)
+        {
+            _cameraManager.OnLateUpdate(deltaTime, unscaledDeltaTime);
+        }
+
         private async Task AsyncInitSceneAsset()
         {
             
@@ -146,6 +160,7 @@ namespace HotFix
 
         public override void OnExit()
         {
+            _cameraManager = null;
             // 清理实体视图管理器
             EntityViewManager.Instance.Cleanup();
             GameApp.View.CloseAllView(new int[]

@@ -14,6 +14,7 @@ namespace HotFixBattle
     public class EntityViewData
     {
         public GameObject View;
+        public Transform tran_View;
         public Animator Animator;
         public EntityComponent EntityComponent;
         //实体没有创建结束时事件缓存
@@ -28,6 +29,8 @@ namespace HotFixBattle
         // 实体ID到视图数据的映射
         private readonly Dictionary<int, EntityViewData> _entityViewDatas = new Dictionary<int, EntityViewData>();
 
+        private EntityViewData _playerViewData;
+        public EntityViewData PlayerViewData => _playerViewData;
         /// <summary>
         /// 初始化实体视图管理器
         /// </summary>
@@ -438,6 +441,7 @@ namespace HotFixBattle
             var viewData = new EntityViewData
             {
                 View = entityView,
+                tran_View = entityView.transform,
                 Animator = entityView.GetComponent<Animator>(),
                 EntityComponent = entityView.GetComponent<EntityComponent>()
             };
@@ -454,7 +458,8 @@ namespace HotFixBattle
             entityView.transform.localPosition = entity.LocalPosition;
             // 保存视图数据
             _entityViewDatas[entity.Id] = viewData;
-            
+            if(entity.Type == eEntityType.Player)
+                _playerViewData = viewData;
             Debug.Log($"[EntityViewManager] 创建实体视图: {entity.Name} (ID: {entity.Id}, Type: {entity.Type})");
         }
 

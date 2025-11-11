@@ -119,7 +119,6 @@ public class SkillUI : MonoBehaviour
         }
         
         // TODO: 调用技能释放逻辑
-        GameApp.Event.DispatchNow((int)LocalMessageName.CC_PlayerMove, args);
         ResetState();
     }
 
