@@ -85,16 +85,12 @@ namespace Game.Logic.BattleModule
                 return spawnedMonsterIds;
             }
 
-            // 获取实体管理器
-            var entityManager = SimpleEntityManager.Instance;
-
             // 为每个怪物ID生成怪物
             foreach (var monsterId in missionData.MonsterId)
             {
                 var monster = SpawnMonster(monsterId, worldContext);
                 if (monster != null)
                 {
-                    entityManager.AddEntity(monster);
                     spawnedMonsterIds.Add(monster.Id);
                 }
             }
@@ -136,12 +132,6 @@ namespace Game.Logic.BattleModule
             // 使用工厂创建怪物
             var monster = EntityFactory.CreateEntity(eEntityType.Monster, monsterParams) as MonsterEntity;
             
-            // 发送实体创建事件
-            if (monster != null)
-            {
-                GameApp.Event.DispatchNow((int)LocalMessageName.CC_EntityCreated, new EntityCreatedEventArgs(monster));
-            }
-
             return monster;
         }
 

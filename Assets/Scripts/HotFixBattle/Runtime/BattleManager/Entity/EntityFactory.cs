@@ -2,6 +2,9 @@
 using System;
 using System.Collections.Generic;
 using cfg;
+using Framework.Runtime;
+using HotFixBattle;
+using UnityEngine;
 
 namespace Game.Logic.BattleModule.Entity
 {
@@ -30,7 +33,18 @@ namespace Game.Logic.BattleModule.Entity
         {
             if (_entityCreators.ContainsKey(type))
             {
-                return _entityCreators[type](@params);
+                var entity = _entityCreators[type](@params);
+                // 设置实体位置
+                entity.LocalPosition = @params.Position;
+                // 自动将创建的实体添加到实体管理器
+                SimpleEntityManager.Instance.AddEntity(entity);
+                // 发送实体创建事件
+                if (entity != null)
+                {
+                    GameApp.Event.DispatchNow((int)LocalMessageName.CC_EntityCreated, new EntityCreatedEventArgs(entity));
+                }
+
+                return entity;
             }
 
             throw new ArgumentException($"未知的实体类型: {type}");
@@ -135,7 +149,7 @@ namespace Game.Logic.BattleModule.Entity
         public string Name { get; set; }
         public int MaxHealth { get; set; }
         public Charactor CharactorConfig;
-
+        public Vector3 Position { get; set; } = Vector3.zero; // 默认位置为 (0,0,0)
     }
 
     /// <summary>

@@ -1,4 +1,5 @@
 ﻿using Framework;
+using HotFixBattle;
 using UnityEngine;
 
 namespace HotFix
@@ -63,6 +64,9 @@ namespace HotFix
                 if (_battleRoot == null)
                 {
                     _battleRoot = new GameObject("BattleRoot");
+#if UNITY_EDITOR
+                    _battleRoot.AddComponent<MapManagerVisualizer>();
+#endif
                     Object.DontDestroyOnLoad(_battleRoot);
                 }
                 return _battleRoot;

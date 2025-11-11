@@ -6,7 +6,6 @@ using Framework.EventSystem;
 using Framework.Runtime;
 using Game.Logic.BattleModule.Entity;
 using HotFix;
-using HotFixBattle.AI;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
@@ -256,7 +255,7 @@ namespace HotFixBattle
         {
             
             // 获取角色配置
-            var charactorConfig = GameTableProxy.Tables.TbCharactor.Get(entity.Id);
+            var charactorConfig = entity.Charactor;
             if (charactorConfig == null)
             {
                 Debug.LogError($"[EntityViewManager] 未找到角色配置，ID: {entity.Id}");
@@ -452,7 +451,7 @@ namespace HotFixBattle
             
             // 设置为EntityRoot的子对象
             entityView.transform.SetParent(GameNode.Instance.EntityRoot.transform);
-            entityView.transform.localPosition = Vector3.zero;
+            entityView.transform.localPosition = entity.LocalPosition;
             // 保存视图数据
             _entityViewDatas[entity.Id] = viewData;
             
@@ -500,7 +499,7 @@ namespace HotFixBattle
                     // 更新实体位置
                     if (viewData.EntityComponent != null && viewData.EntityComponent.Entity != null)
                     {
-                        viewData.EntityComponent.Entity.SetPosition(args.Position);
+                        viewData.EntityComponent.SetPosition(args.Position);
                     }
                 }
             }

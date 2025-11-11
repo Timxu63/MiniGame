@@ -14,6 +14,7 @@ namespace Game.Logic.BattleModule.Entity
         private readonly Dictionary<int, IEntity> _entities;
         private readonly Dictionary<eEntityType, List<IEntity>> _entitiesByType;
         private int _nextId = 1;
+        private PlayerEntity _playerEntity;
 
         /// <summary>
         /// 私有构造函数，实现单例模式
@@ -40,7 +41,8 @@ namespace Game.Logic.BattleModule.Entity
             {
                 return;
             }
-
+            if(entity.Type == eEntityType.Player)
+                _playerEntity = entity as PlayerEntity;
             _entities[entity.Id] = entity;
             _entitiesByType[entity.Type].Add(entity);
         }

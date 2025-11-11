@@ -1,6 +1,10 @@
 
 using System;
 using cfg;
+using Framework.EventSystem;
+using Framework.Runtime;
+using HotFix;
+using HotFixBattle;
 
 namespace Game.Logic.BattleModule.Entity
 {
@@ -34,6 +38,7 @@ namespace Game.Logic.BattleModule.Entity
         /// </summary>
         public int SkillPoints { get; set; }
 
+
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -51,6 +56,16 @@ namespace Game.Logic.BattleModule.Entity
             Defense = defense;
             SkillPoints = 0;
             Charactor = charactor;
+            GameApp.Event.RegisterEvent((int)LocalMessageName.CC_PlayerMove, OnPlayerMove);
+        }
+
+        private void OnPlayerMove(int type, BaseEventArgs eventargs)
+        {
+            if (IsAlive)
+            {
+                var MoveDirection = (eventargs as DirectionChangedEventArgs).Direction;
+                Move(MoveDirection);
+            }
         }
 
         /// <summary>
@@ -96,12 +111,14 @@ namespace Game.Logic.BattleModule.Entity
             return base.TakeDamage(actualDamage);
         }
 
+
         /// <summary>
         /// 重写死亡事件
         /// </summary>
         protected override void OnDeath()
         {
             base.OnDeath();
+            GameApp.Event.UnRegisterEvent((int)LocalMessageName.CC_EntityMove, OnPlayerMove);
             // 玩家死亡的特殊处理
             // 例如：掉落经验值、返回复活点等
         }

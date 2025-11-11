@@ -38,5 +38,10 @@ namespace HotFixBattle
             var component = GetEntityComponent(gameObject);
             return component?.Entity;
         }
+
+        public void SetPosition(Vector3 argsPosition)
+        {
+            transform.position = argsPosition;
+        }
     }
 }

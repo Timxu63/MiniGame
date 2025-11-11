@@ -53,7 +53,13 @@ namespace Game.Logic.BattleModule.Entity
         /// <summary>
         /// 实体位置
         /// </summary>
-        public Vector3 Position { get; set; }
+        public Vector3 LocalPosition { get; set; }
+        
+        
+        /// <summary>
+        /// 移动速度
+        /// </summary>
+        public float MoveSpeed { get; set; } = 5.0f;
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -68,6 +74,7 @@ namespace Game.Logic.BattleModule.Entity
             MaxHealth = maxHealth;
             CurrentHealth = maxHealth;
             IsAlive = true;
+            LocalPosition = Vector3.zero; // 设置默认位置为 (0,0,0)
         }
 
         /// <summary>
@@ -159,6 +166,29 @@ namespace Game.Logic.BattleModule.Entity
         protected virtual void OnHeal(int amount)
         {
             // 治疗事件处理
+        }
+        
+        
+        /// <summary>
+        /// 移动实体
+        /// </summary>
+        /// <param name="direction">移动方向</param>
+        public void Move(Vector2 direction)
+        {
+            if (!IsAlive || direction == Vector2.zero)
+                return;
+
+            // 将2D方向转换为3D方向
+            Vector3 moveDirection = new Vector3(direction.x, 0, direction.y).normalized;
+
+            // 计算下一帧位置
+            Vector3 nextPosition = LocalPosition + moveDirection * MoveSpeed * Time.deltaTime;
+
+            // 更新位置
+            LocalPosition = nextPosition;
+
+            // 发送实体移动事件
+            GameApp.Event.DispatchNow((int)LocalMessageName.CC_EntityMove, new EntityMoveEventArgs(Id, LocalPosition));
         }
     }
 }

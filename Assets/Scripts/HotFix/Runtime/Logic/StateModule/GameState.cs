@@ -3,8 +3,9 @@ using cfg;
 using Framework.EventSystem;
 using Framework.Runtime;
 using Framework.State;
+using Game.Logic.BattleModule.Entity;
 using HotFixBattle;
-using HotFixBattle.AI;
+using UnityEngine;
 
 namespace HotFix
 {
@@ -23,7 +24,6 @@ namespace HotFix
             InitWorldContent();
             // 初始化实体视图管理器
             EntityViewManager.Instance.Initialize();
-            AIManager.Instance.Initialize(_worldContext);
             _battleDataModule =
                 GameApp.DataModule.GetDataModule<BattleDataModule>((int)DataName.BattleDataModule);
 #if UNITY_EDITOR
@@ -48,7 +48,52 @@ namespace HotFix
         {
             await AsyncInitSceneAsset();
             await AsyncInitUIAsset();
+            await AsyncInitPlayer();
             OnAsyncFinish();
+        }
+
+        private async Task AsyncInitPlayer()
+        {
+            // 获取角色数据
+            var charactor = _worldContext.Tables.TbCharactor.GetOrDefault(1);
+            if (charactor == null)
+            {
+                Debug.LogError("[GameState] 找不到ID为1的角色数据");
+                return;
+            }
+
+            // 获取地图中间点
+            var mapManager = MapManager.Instance;
+            if (!mapManager.IsInitialized)
+            {
+                Debug.LogError("[GameState] 地图管理器未初始化");
+                return;
+            }
+
+            // 计算地图中心点世界坐标
+            Vector3 centerPosition = new Vector3(
+                mapManager.Width * mapManager.CellSize * 0.5f, 
+                0, 
+                mapManager.Height * mapManager.CellSize * 0.5f
+            );
+
+            // 使用EntityFactory创建玩家实体
+            var playerParams = new PlayerCreationParams
+            {
+                Name = charactor.Name,
+                MaxHealth = 100,  // 默认最大生命值
+                CharactorConfig = charactor,
+                Level = 1,        // 默认等级
+                AttackPower = 10, // 默认攻击力
+                Defense = 5,      // 默认防御力
+                Position = centerPosition // 设置玩家位置为地图中心点
+            };
+
+            var playerEntity = EntityFactory.CreateEntity(eEntityType.Player, playerParams) as PlayerEntity;
+
+            // EntityFactory已自动设置位置并将实体添加到SimpleEntityManager
+
+            Debug.Log($"[GameState] 成功创建玩家实体，ID: {playerEntity.Id}, 位置: {centerPosition}");
         }
 
         private void OnAsyncFinish()

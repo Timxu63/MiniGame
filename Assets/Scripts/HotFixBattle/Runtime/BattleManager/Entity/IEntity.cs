@@ -64,6 +64,6 @@ namespace Game.Logic.BattleModule.Entity
         /// <summary>
         /// 实体位置
         /// </summary>
-        Vector3 Position { get; set; }
+        Vector3 LocalPosition { get; set; }
     }
 }
