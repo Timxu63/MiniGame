@@ -1,12 +1,12 @@
 {
   "dependencies": {
-    "com.coffee.ui-particle": "https://github.com/mob-sakai/ParticleEffectForUGUI.git#4.9.0",
-    "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.5.5",
-    "com.code-philosophy.luban": "https://gitee.com/focus-creative-games/luban_unity.git",
     "cn.tuanjie.minihost": "1.0.13",
     "cn.tuanjie.wx-uploader": "0.1.4",
     "cn.unity.uos.launcher": "https://cnb.cool/unity/uos/UOSLauncher.git",
     "com.bytedance.starksdk": "file:../Assets/../LocalPackages/com.bytedance.starksdk@6.5.6",
+    "com.code-philosophy.luban": "https://gitee.com/focus-creative-games/luban_unity.git",
+    "com.coffee.ui-particle": "https://github.com/mob-sakai/ParticleEffectForUGUI.git#4.9.0",
+    "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask#2.5.5",
     "com.kuaishou.minigame": "https://github.com/ksminigame/minigame-tuanjie-transform-sdk.git",
     "com.littlebigfun.addressable-importer": "https://github.com/favoyang/unity-addressable-importer.git#v0.16.1",
     "com.qq.weixin.minigame": "https://gitee.com/wechat-minigame/minigame-tuanjie-transform-sdk.git",

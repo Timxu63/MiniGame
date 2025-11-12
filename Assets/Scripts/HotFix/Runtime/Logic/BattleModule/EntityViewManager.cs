@@ -70,6 +70,7 @@ namespace HotFixBattle
             }
 
             _entityViewDatas.Clear();
+            _playerViewData = null;
         }
 
 

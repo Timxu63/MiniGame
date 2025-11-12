@@ -1,11 +1,13 @@
 using System.Threading.Tasks;
 using cfg;
+using Cysharp.Threading.Tasks;
 using Framework.EventSystem;
 using Framework.Runtime;
 using Framework.State;
 using Game.Logic.BattleModule.Entity;
 using HotFixBattle;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace HotFix
 {
@@ -22,7 +24,6 @@ namespace HotFix
 
         public override void OnEnter()
         {
-            AsyncInitCamera();
             InitWorldContent();
             // 初始化实体视图管理器
             EntityViewManager.Instance.Initialize();
@@ -49,6 +50,9 @@ namespace HotFix
         private async void AsyncInitAsset()
         {
             await AsyncInitSceneAsset();
+            await AsyncInitCamera();
+            Debug.LogError("!3");
+
             await AsyncInitUIAsset();
             await AsyncInitPlayer();
             OnAsyncFinish();
@@ -57,7 +61,8 @@ namespace HotFix
         private async Task AsyncInitCamera()
         {
             _cameraManager = new CameraManager();
-            _cameraManager.InitCamera();
+            await _cameraManager.InitCamera();
+            Debug.LogError("!1");
         }
 
         private async Task AsyncInitPlayer()
@@ -111,12 +116,13 @@ namespace HotFix
 
         public override void OnLateUpdate(float deltaTime, float unscaledDeltaTime)
         {
-            _cameraManager.OnLateUpdate(deltaTime, unscaledDeltaTime);
+            if(_cameraManager != null)
+                _cameraManager.OnLateUpdate(deltaTime, unscaledDeltaTime);
         }
 
         private async Task AsyncInitSceneAsset()
         {
-            
+            await GameApp.Scene.LoadSceneAsync("Assets/_Resources/Scenes/Battle.scene", LoadSceneMode.Single);
         }
 
         private async Task AsyncInitUIAsset()

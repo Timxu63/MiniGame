@@ -34,8 +34,8 @@ namespace HotFixBattle
         private bool _isInitialized = false;
 
         // 默认地图大小
-        private const int DEFAULT_MAP_WIDTH = 100;
-        private const int DEFAULT_MAP_HEIGHT = 100;
+        private const int DEFAULT_MAP_WIDTH = 50;
+        private const int DEFAULT_MAP_HEIGHT = 50;
 
         private BattleWorldContext m_battleWorldContext;
         #endregion

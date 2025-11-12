@@ -10,20 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Default Local Group
+  m_Name: Scene-Battle.scene
   m_EditorClassIdentifier: 
-  m_GroupName: Default Local Group
+  m_GroupName: Scene-Battle.scene
   m_Data:
     m_SerializedData: []
-  m_GUID: 36262ebc6aa63444e914874dab2c5547
+  m_GUID: 2b602c608bacee14eb4f8c0a2afec88a
   m_SerializeEntries:
-  - m_GUID: 215cae9a488d97546b11f7cc9b59f7a1
-    m_Address: Assets/_Resources/Prefab/BattleCamera/BattleCamera.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 4a21eddc7a12afe4589379eb1f39a290
-    m_Address: Assets/_Resources/Prefab/Map/Map1.prefab
+  - m_GUID: a00fc86713150734a843bd446e3073f7
+    m_Address: Assets/_Resources/Scenes/Battle.scene
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -31,5 +26,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: d4074e383bdd2424b955f08528e86a1e, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: b463181c203f43442bbd801b4dad4c8a, type: 2}
-    - {fileID: 11400000, guid: 1f948f8dd2348134fafe3af490cc4ca2, type: 2}
+    - {fileID: 11400000, guid: 12a665fea2e61bc499820d2a0edfad76, type: 2}
+    - {fileID: 11400000, guid: f7c66c16ccb532f4ca6e871e9f998dc5, type: 2}

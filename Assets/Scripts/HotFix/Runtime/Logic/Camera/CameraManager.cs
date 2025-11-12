@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using HotFix;
 using UnityEngine;
@@ -11,10 +12,11 @@ namespace HotFixBattle
         private Camera camera;
         public Camera CameraView => camera;
         private bool haveInit;
-        public async void InitCamera()
+        public async Task InitCamera()
         {
             var resourceConfig = GameTableProxy.Tables.TbResource.Get(3);
             var loadOperation = await Addressables.LoadAssetAsync<GameObject>(resourceConfig.Path).Task;
+            Debug.LogError("!2");
             cameraRoot = GameObject.Instantiate(loadOperation).transform;
             camera = cameraRoot.GetComponentInChildren<Camera>();
             haveInit = true;
@@ -26,6 +28,11 @@ namespace HotFixBattle
                 cameraRoot.transform.position =
                     EntityViewManager.Instance.PlayerViewData.View.transform.position;
             }
+        }
+
+        public void DeInit()
+        {
+            
         }
     }
 }

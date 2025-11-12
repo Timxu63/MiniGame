@@ -829,7 +829,7 @@ MonoBehaviour:
     - line: '|   -s ERROR_ON_UNDEFINED_SYMBOLS=0 -s TOTAL_MEMORY=256MB -s EXPORTED_RUNTIME_METHODS=''''["ccall","cwrap","stackTrace","addRunDependency","removeRunDependency","FS_createPath","FS_createDataFile","stackTrace","writeStackCookie","checkStackCookie","lengthBytesUTF8","stringToUTF8"]'''''
     - line: '|   --profiling-funcs '''
     - line: '| weixinMiniGameModulesDirectory: '
-    - line: '| weixinMiniGameTemplate: PATH:D:\Self\M\Library\PackageCache\com.qq.weixin.minigame@25827f8ab9\WebGLTemplates\WXTemplate2022TJ'
+    - line: '| weixinMiniGameTemplate: APPLICATION:Default'
     - line: '| weixinMiniGameAnalyzeBuildSize: 0'
     - line: '| weixinMiniGameUseEmbeddedResources: 0'
     - line: '| weixinMiniGameCompressionFormat: 2'
@@ -897,7 +897,7 @@ MonoBehaviour:
           MemorySize: 256
           HideAfterCallMain: 1
           preloadFiles: 
-          Orientation: 0
+          Orientation: 1
           bgImageSrc: Assets/WX-WASM-SDK-V2/Runtime/wechat-default/images/background.jpg
           dataFileSubPrefix: 
           maxStorage: 200
