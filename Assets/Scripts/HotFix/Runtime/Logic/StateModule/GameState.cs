@@ -51,8 +51,6 @@ namespace HotFix
         {
             await AsyncInitSceneAsset();
             await AsyncInitCamera();
-            Debug.LogError("!3");
-
             await AsyncInitUIAsset();
             await AsyncInitPlayer();
             OnAsyncFinish();
@@ -62,7 +60,6 @@ namespace HotFix
         {
             _cameraManager = new CameraManager();
             await _cameraManager.InitCamera();
-            Debug.LogError("!1");
         }
 
         private async Task AsyncInitPlayer()
@@ -116,8 +113,7 @@ namespace HotFix
 
         public override void OnLateUpdate(float deltaTime, float unscaledDeltaTime)
         {
-            if(_cameraManager != null)
-                _cameraManager.OnLateUpdate(deltaTime, unscaledDeltaTime);
+            _cameraManager.OnLateUpdate(deltaTime, unscaledDeltaTime);
         }
 
         private async Task AsyncInitSceneAsset()

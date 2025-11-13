@@ -85,6 +85,7 @@ namespace Framework.Runtime
             m_persistent.OnInit();
             DataModule = m_dataModule;
 #if UNITY_EDITOR
+            
             IsEditorScene = isEditorScene;
 #endif
             State.RegisterState(new CheckAssetsState());

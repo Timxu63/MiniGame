@@ -15,9 +15,9 @@ MonoBehaviour:
   m_GroupName: Scene-Battle.scene
   m_Data:
     m_SerializedData: []
-  m_GUID: 2b602c608bacee14eb4f8c0a2afec88a
+  m_GUID: 4612d0192e68cbb45b58ef64b9979c4f
   m_SerializeEntries:
-  - m_GUID: a00fc86713150734a843bd446e3073f7
+  - m_GUID: 613bec7c37d39734bbe7815f609298c5
     m_Address: Assets/_Resources/Scenes/Battle.scene
     m_ReadOnly: 0
     m_SerializedLabels: []
@@ -26,5 +26,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: d4074e383bdd2424b955f08528e86a1e, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 12a665fea2e61bc499820d2a0edfad76, type: 2}
-    - {fileID: 11400000, guid: f7c66c16ccb532f4ca6e871e9f998dc5, type: 2}
+    - {fileID: 11400000, guid: d7f2946f4c51a424db466e2deb0b2ea0, type: 2}
+    - {fileID: 11400000, guid: 01f1b89bc51f769489d23dbee8a1c32c, type: 2}
