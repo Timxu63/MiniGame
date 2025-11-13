@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Default Local Group
+  m_Name: Texture-Map
   m_EditorClassIdentifier: 
-  m_GroupName: Default Local Group
+  m_GroupName: Texture-Map
   m_Data:
     m_SerializedData: []
-  m_GUID: 36262ebc6aa63444e914874dab2c5547
+  m_GUID: dd855b1e1718c71408e211b10ed946a7
   m_SerializeEntries:
-  - m_GUID: 4a21eddc7a12afe4589379eb1f39a290
-    m_Address: Assets/_Resources/Prefab/Map/Map1.prefab
+  - m_GUID: 8ff8ae0371292e445bf748a2204bb3af
+    m_Address: Assets/_Resources/Sprites/Texture/Map/battleMapBg.png
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -26,5 +26,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: d4074e383bdd2424b955f08528e86a1e, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: b463181c203f43442bbd801b4dad4c8a, type: 2}
-    - {fileID: 11400000, guid: 1f948f8dd2348134fafe3af490cc4ca2, type: 2}
+    - {fileID: 11400000, guid: ed23382d27d89c349a2fb30f316dd70d, type: 2}
+    - {fileID: 11400000, guid: 0bfcb12fd646fe5419d42f362c66d131, type: 2}
