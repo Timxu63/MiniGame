@@ -10,20 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Default Local Group
+  m_Name: BattleCamera-BattleCamera.prefab
   m_EditorClassIdentifier: 
-  m_GroupName: Default Local Group
+  m_GroupName: BattleCamera-BattleCamera.prefab
   m_Data:
     m_SerializedData: []
-  m_GUID: 36262ebc6aa63444e914874dab2c5547
+  m_GUID: fe0fdf508ee4ebd4f9d9cc986c82eb59
   m_SerializeEntries:
-  - m_GUID: 4a21eddc7a12afe4589379eb1f39a290
-    m_Address: Assets/_Resources/Prefab/Map/Map1.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c1ab2d52eb945f24b9c09d43851c3914
-    m_Address: Assets/_Resources/Prefab/Map/Map1.prefab
+  - m_GUID: 215cae9a488d97546b11f7cc9b59f7a1
+    m_Address: Assets/_Resources/Prefab/BattleCamera/BattleCamera.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -31,5 +26,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: d4074e383bdd2424b955f08528e86a1e, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: b463181c203f43442bbd801b4dad4c8a, type: 2}
-    - {fileID: 11400000, guid: 1f948f8dd2348134fafe3af490cc4ca2, type: 2}
+    - {fileID: 11400000, guid: 61e11197cfeafa74a8c3e656dc45884a, type: 2}
+    - {fileID: 11400000, guid: 87744f0ee38d93047a080cd70e2cf67d, type: 2}

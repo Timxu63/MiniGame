@@ -113,7 +113,8 @@ namespace HotFix
 
         public override void OnLateUpdate(float deltaTime, float unscaledDeltaTime)
         {
-            _cameraManager.OnLateUpdate(deltaTime, unscaledDeltaTime);
+            if(_cameraManager != null)
+                _cameraManager.OnLateUpdate(deltaTime, unscaledDeltaTime);
         }
 
         private async Task AsyncInitSceneAsset()
