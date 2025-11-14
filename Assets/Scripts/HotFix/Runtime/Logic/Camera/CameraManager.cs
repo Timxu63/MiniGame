@@ -16,7 +16,6 @@ namespace HotFixBattle
         {
             var resourceConfig = GameTableProxy.Tables.TbResource.Get(3);
             var loadOperation = await Addressables.LoadAssetAsync<GameObject>(resourceConfig.Path).Task;
-            Debug.LogError("!2");
             cameraRoot = GameObject.Instantiate(loadOperation).transform;
             camera = cameraRoot.GetComponentInChildren<Camera>();
             haveInit = true;

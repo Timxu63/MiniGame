@@ -17,6 +17,8 @@ namespace HotFix
         private BattleDataModule _battleDataModule;
         private BattleWorldContext _worldContext;
         private CameraManager _cameraManager;
+        private MapViewManager _mapViewManager;
+
         public override int GetName()
         {
             return (int) StateName.GameState;
@@ -24,7 +26,6 @@ namespace HotFix
 
         public override void OnEnter()
         {
-            InitWorldContent();
             // 初始化实体视图管理器
             EntityViewManager.Instance.Initialize();
             _battleDataModule =
@@ -38,9 +39,10 @@ namespace HotFix
                 _battleDataModule.m_openBattleData.ModeData.ChapterId = 1;
             }
 #endif
+            _worldContext = new BattleWorldContext();
             // 创建战斗流程控制器
             _battleFlowController = new BattleFlowController(_worldContext);
-            
+            InitWorldContent(_battleFlowController);
             // 根据游戏模式初始化对应的战斗管理器
             System.Type managerType = BattleUtil.GetBattleManagerType(_battleDataModule.m_openBattleData.GameModel);
             _battleFlowController.InitializeBattleManager(managerType);
@@ -50,10 +52,17 @@ namespace HotFix
         private async void AsyncInitAsset()
         {
             await AsyncInitSceneAsset();
+            await AsyncInitMapAsset();
             await AsyncInitCamera();
             await AsyncInitUIAsset();
             await AsyncInitPlayer();
             OnAsyncFinish();
+        }
+
+        private async Task AsyncInitMapAsset()
+        {
+            _mapViewManager = new MapViewManager();
+            await _mapViewManager.Init(4);
         }
 
         private async Task AsyncInitCamera()
@@ -135,10 +144,10 @@ namespace HotFix
             }
         }
 
-        private void InitWorldContent()
+        private void InitWorldContent(BattleFlowController battleFlowController)
         {
-            _worldContext = new BattleWorldContext();
             _worldContext.Tables = GameTableProxy.Tables;
+            _worldContext.BattleFlowController = battleFlowController;
             MapManager.Instance.Initialize(_worldContext);
         }
         public override void OnUpdate(float deltaTime, float unscaledDeltaTime)

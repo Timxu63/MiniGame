@@ -32,6 +32,7 @@ namespace HotFixBattle
 
             _battleManager = (BattleManagerBase)Activator.CreateInstance(battleManagerType);
             _battleManager.Initialize(_worldContext);
+            
         }
 
         /// <summary>
