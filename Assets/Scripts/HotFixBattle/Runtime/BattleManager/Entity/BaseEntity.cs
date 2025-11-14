@@ -184,11 +184,40 @@ namespace Game.Logic.BattleModule.Entity
             // 计算下一帧位置
             Vector3 nextPosition = LocalPosition + moveDirection * MoveSpeed * Time.deltaTime;
 
-            // 更新位置
-            LocalPosition = nextPosition;
+            // 检查地图边界
+            if (MapManager.Instance.IsInitialized)
+            {
+                if (MapManager.Instance.IsInBounds(nextPosition))
+                {
+                    // 如果在边界内，直接移动
+                    LocalPosition = nextPosition;
+                }
+                else
+                {
+                    // 如果超出边界，找到边界上的极限位置
+                    Vector3 clampedPosition = nextPosition;
+                    Bounds mapBounds = MapManager.Instance.MapBounds;
 
-            // 发送实体移动事件
-            GameApp.Event.DispatchNow((int)LocalMessageName.CC_EntityMove, new EntityMoveEventArgs(Id, LocalPosition));
+                    // 将位置限制在边界内
+                    clampedPosition.x = Mathf.Clamp(clampedPosition.x, mapBounds.min.x, mapBounds.max.x);
+                    clampedPosition.z = Mathf.Clamp(clampedPosition.z, mapBounds.min.z, mapBounds.max.z);
+
+                    // 只有当夹紧后的位置与当前位置不同时才更新
+                    if (clampedPosition != LocalPosition)
+                    {
+                        LocalPosition = clampedPosition;
+                    }
+                }
+
+                // 发送实体移动事件
+                GameApp.Event.DispatchNow((int)LocalMessageName.CC_EntityMove, new EntityMoveEventArgs(Id, LocalPosition));
+            }
+            else
+            {
+                // 如果地图未初始化，则直接移动
+                LocalPosition = nextPosition;
+                GameApp.Event.DispatchNow((int)LocalMessageName.CC_EntityMove, new EntityMoveEventArgs(Id, LocalPosition));
+            }
         }
     }
 }
