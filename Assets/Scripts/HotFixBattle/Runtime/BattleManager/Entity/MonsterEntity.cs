@@ -40,11 +40,6 @@ namespace Game.Logic.BattleModule.Entity
         public int DropGold { get; set; }
 
         /// <summary>
-        /// AI状态
-        /// </summary>
-        public MonsterAIState AIState { get; set; }
-
-        /// <summary>
         /// 生存时间计时器（秒）
         /// </summary>
         private float _survivalTimer = 0f;
@@ -77,7 +72,6 @@ namespace Game.Logic.BattleModule.Entity
             MonsterType = monsterType;
             DropExperience = dropExperience;
             DropGold = dropGold;
-            AIState = MonsterAIState.Idle;
             _maxSurvivalTime = survivalTime;
             Charactor = charactor;
 
@@ -113,30 +107,6 @@ namespace Game.Logic.BattleModule.Entity
 
             // 更新生存时间计时器
             UpdateSurvivalTimer(deltaTime);
-
-            // 简单的AI状态更新逻辑
-            switch (AIState)
-            {
-                case MonsterAIState.Idle:
-                    // 闲置状态，可以添加巡逻逻辑
-                    break;
-
-                case MonsterAIState.Patrol:
-                    // 巡逻状态
-                    break;
-
-                case MonsterAIState.Chase:
-                    // 追击状态
-                    break;
-
-                case MonsterAIState.Attack:
-                    // 攻击状态
-                    break;
-
-                case MonsterAIState.Flee:
-                    // 逃跑状态
-                    break;
-            }
         }
 
         /// <summary>
@@ -164,17 +134,5 @@ namespace Game.Logic.BattleModule.Entity
             // 怪物死亡的特殊处理
             // 例如：掉落物品、触发任务等
         }
-    }
-
-    /// <summary>
-    /// 怪物AI状态枚举
-    /// </summary>
-    public enum MonsterAIState
-    {
-        Idle,      // 闲置
-        Patrol,    // 巡逻
-        Chase,     // 追击
-        Attack,    // 攻击
-        Flee       // 逃跑
     }
 }
