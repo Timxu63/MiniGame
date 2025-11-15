@@ -60,6 +60,11 @@ namespace Game.Logic.BattleModule.Entity
         /// 移动速度
         /// </summary>
         public float MoveSpeed { get; set; } = 5.0f;
+
+        /// <summary>
+        /// 实体状态管理器
+        /// </summary>
+        public EntityStateManager StateManager { get; private set; }
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -75,6 +80,9 @@ namespace Game.Logic.BattleModule.Entity
             CurrentHealth = maxHealth;
             IsAlive = true;
             LocalPosition = Vector3.zero; // 设置默认位置为 (0,0,0)
+
+            // 初始化状态管理器
+            StateManager = new EntityStateManager(this);
         }
 
         /// <summary>
@@ -89,6 +97,12 @@ namespace Game.Logic.BattleModule.Entity
                 return 0;
             }
 
+            // 如果实体处于无敌状态，不受到伤害
+            if (StateManager.IsInvincible)
+            {
+                return 0;
+            }
+
             int actualDamage = Math.Min(damage, CurrentHealth);
             CurrentHealth -= actualDamage;
 
@@ -96,6 +110,10 @@ namespace Game.Logic.BattleModule.Entity
             {
                 CurrentHealth = 0;
                 IsAlive = false;
+
+                // 添加死亡状态
+                StateManager.AddState(EntityState.Dead);
+
                 OnDeath();
                 
                 // 发送实体死亡事件
@@ -139,7 +157,8 @@ namespace Game.Logic.BattleModule.Entity
         /// <param name="deltaTime">时间增量</param>
         public virtual void Update(float deltaTime)
         {
-            // 基础更新逻辑
+            // 更新状态管理器
+            StateManager.Update(deltaTime);
         }
 
         /// <summary>
@@ -175,7 +194,8 @@ namespace Game.Logic.BattleModule.Entity
         /// <param name="direction">移动方向</param>
         public void Move(Vector2 direction)
         {
-            if (!IsAlive || direction == Vector2.zero)
+            // 检查是否可以移动
+            if (!StateManager.CanMove || direction == Vector2.zero)
                 return;
 
             // 将2D方向转换为3D方向
