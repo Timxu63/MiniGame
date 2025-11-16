@@ -11,8 +11,8 @@ namespace Game.Logic.BattleModule.Entity
     /// </summary>
     public class SimpleEntityManager : Singleton<SimpleEntityManager>
     {
-        private readonly Dictionary<int, IEntity> _entities;
-        private readonly Dictionary<eEntityType, List<IEntity>> _entitiesByType;
+        private readonly Dictionary<int, BaseEntity> _entities;
+        private readonly Dictionary<eEntityType, List<BaseEntity>> _entitiesByType;
         private int _nextId = 1;
         private PlayerEntity _playerEntity;
 
@@ -21,13 +21,13 @@ namespace Game.Logic.BattleModule.Entity
         /// </summary>
         public SimpleEntityManager()
         {
-            _entities = new Dictionary<int, IEntity>();
-            _entitiesByType = new Dictionary<eEntityType, List<IEntity>>();
+            _entities = new Dictionary<int, BaseEntity>();
+            _entitiesByType = new Dictionary<eEntityType, List<BaseEntity>>();
 
             // 初始化各类型实体列表
             foreach (eEntityType type in Enum.GetValues(typeof(eEntityType)))
             {
-                _entitiesByType[type] = new List<IEntity>();
+                _entitiesByType[type] = new List<BaseEntity>();
             }
         }
 
@@ -35,7 +35,7 @@ namespace Game.Logic.BattleModule.Entity
         /// 添加实体
         /// </summary>
         /// <param name="entity">要添加的实体</param>
-        public void AddEntity(IEntity entity)
+        public void AddEntity(BaseEntity entity)
         {
             if (entity == null)
             {
@@ -89,9 +89,9 @@ namespace Game.Logic.BattleModule.Entity
         /// 获取所有实体
         /// </summary>
         /// <returns>所有实体的列表</returns>
-        public List<IEntity> GetAllEntities()
+        public List<BaseEntity> GetAllEntities()
         {
-            return new List<IEntity>(_entities.Values);
+            return new List<BaseEntity>(_entities.Values);
         }
 
         /// <summary>

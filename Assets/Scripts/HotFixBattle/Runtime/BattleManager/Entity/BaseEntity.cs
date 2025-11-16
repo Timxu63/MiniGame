@@ -3,6 +3,7 @@ using System;
 using Framework.EventSystem;
 using Framework.Runtime;
 using cfg;
+using Game.Logic.BattleModule.Component;
 using HotFixBattle;
 using UnityEngine;
 
@@ -65,6 +66,11 @@ namespace Game.Logic.BattleModule.Entity
         /// 实体状态管理器
         /// </summary>
         public EntityStateManager StateManager { get; private set; }
+        
+        /// <summary>
+        /// 组件管理器
+        /// </summary>
+        public ComponentManager ComponentManager { get; private set; }
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -83,6 +89,9 @@ namespace Game.Logic.BattleModule.Entity
 
             // 初始化状态管理器
             StateManager = new EntityStateManager(this);
+            
+            // 初始化组件管理器
+            ComponentManager = new ComponentManager(this);
         }
 
         /// <summary>
@@ -159,6 +168,9 @@ namespace Game.Logic.BattleModule.Entity
         {
             // 更新状态管理器
             StateManager.Update(deltaTime);
+            
+            // 更新所有组件
+            ComponentManager.UpdateAll(deltaTime);
         }
 
         /// <summary>

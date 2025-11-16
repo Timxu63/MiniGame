@@ -14,8 +14,8 @@ namespace Game.Logic.BattleModule.Entity
     public class EntityFactory
     {
         // 存储实体创建函数的字典
-        private static Dictionary<eEntityType, Func<EntityCreationParams, IEntity>> _entityCreators = 
-            new Dictionary<eEntityType, Func<EntityCreationParams, IEntity>>
+        private static Dictionary<eEntityType, Func<EntityCreationParams, BaseEntity>> _entityCreators = 
+            new Dictionary<eEntityType, Func<EntityCreationParams, BaseEntity>>
         {
             { eEntityType.Player, CreatePlayer },
             { eEntityType.Monster, CreateMonster },
@@ -29,7 +29,7 @@ namespace Game.Logic.BattleModule.Entity
         /// <param name="type">实体类型</param>
         /// <param name="params">创建参数</param>
         /// <returns>创建的实体</returns>
-        public static IEntity CreateEntity(eEntityType type, EntityCreationParams @params)
+        public static BaseEntity CreateEntity(eEntityType type, EntityCreationParams @params)
         {
             if (_entityCreators.ContainsKey(type))
             {
@@ -55,7 +55,7 @@ namespace Game.Logic.BattleModule.Entity
         /// </summary>
         /// <param name="type">实体类型</param>
         /// <param name="creator">创建函数</param>
-        public static void RegisterEntityCreator(eEntityType type, Func<EntityCreationParams, IEntity> creator)
+        public static void RegisterEntityCreator(eEntityType type, Func<EntityCreationParams, BaseEntity> creator)
         {
             _entityCreators[type] = creator;
         }
@@ -65,7 +65,7 @@ namespace Game.Logic.BattleModule.Entity
         /// </summary>
         /// <param name="params">创建参数</param>
         /// <returns>玩家实体</returns>
-        private static IEntity CreatePlayer(EntityCreationParams @params)
+        private static BaseEntity CreatePlayer(EntityCreationParams @params)
         {
             if (@params is PlayerCreationParams playerParams)
             {
@@ -87,7 +87,7 @@ namespace Game.Logic.BattleModule.Entity
         /// </summary>
         /// <param name="params">创建参数</param>
         /// <returns>怪物实体</returns>
-        private static IEntity CreateMonster(EntityCreationParams @params)
+        private static BaseEntity CreateMonster(EntityCreationParams @params)
         {
             if (@params is MonsterCreationParams monsterParams)
             {
@@ -113,7 +113,7 @@ namespace Game.Logic.BattleModule.Entity
         /// </summary>
         /// <param name="params">创建参数</param>
         /// <returns>NPC实体</returns>
-        private static IEntity CreateNPC(EntityCreationParams @params)
+        private static BaseEntity CreateNPC(EntityCreationParams @params)
         {
             // 简单实现，实际项目中可能需要更复杂的NPC类
             if (@params is NPCCreationParams npcParams)
@@ -129,7 +129,7 @@ namespace Game.Logic.BattleModule.Entity
         /// </summary>
         /// <param name="params">创建参数</param>
         /// <returns>物体实体</returns>
-        private static IEntity CreateObject(EntityCreationParams @params)
+        private static BaseEntity CreateObject(EntityCreationParams @params)
         {
             // 简单实现，实际项目中可能需要更复杂的Object类
             if (@params is ObjectCreationParams objectParams)
