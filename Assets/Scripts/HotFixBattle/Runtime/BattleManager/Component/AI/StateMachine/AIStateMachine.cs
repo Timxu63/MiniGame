@@ -1,6 +1,8 @@
 
 using System;
 using System.Collections.Generic;
+using Game.Logic.BattleModule.Entity;
+using UnityEngine;
 
 namespace Game.Logic.BattleModule.Component.AI
 {
@@ -37,7 +39,7 @@ namespace Game.Logic.BattleModule.Component.AI
         public T AddState<T>() where T : IAIState, new()
         {
             Type stateType = typeof(T);
-
+            
             // 如果已存在该类型的状态，则返回现有状态
             if (_states.ContainsKey(stateType))
             {
@@ -90,7 +92,6 @@ namespace Game.Logic.BattleModule.Component.AI
         public void ChangeState(IAIState newState)
         {
             if (newState == null) return;
-
             // 退出当前状态
             CurrentState?.Exit();
 
@@ -136,6 +137,25 @@ namespace Game.Logic.BattleModule.Component.AI
         public bool IsInState<T>() where T : IAIState
         {
             return CurrentState?.GetType() == typeof(T);
+        }
+
+        /// <summary>
+        /// 添加状态并初始化AI组件引用
+        /// </summary>
+        /// <typeparam name="T">状态类型</typeparam>
+        /// <param name="ai">AI组件</param>
+        /// <returns>添加的状态实例</returns>
+        public T AddState<T>(AIComponent ai) where T : IAIState, new()
+        {
+            T state = AddState<T>();
+
+            // 初始化AI组件引用
+            if (state != null)
+            {
+                state.Initialize(ai);
+            }
+
+            return state;
         }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using cfg;
 using Framework.EventSystem;
 using Framework.Runtime;
+using Game.Logic.BattleModule.Component.AI;
 using Game.Logic.BattleModule.Entity;
 using HotFixBattle;
 
@@ -132,6 +133,24 @@ namespace Game.Logic.BattleModule
             // 使用工厂创建怪物
             var monster = EntityFactory.CreateEntity(eEntityType.Monster, monsterParams) as MonsterEntity;
             
+            // 为怪物添加AI组件
+            if (monster != null)
+            {
+                // 根据怪物类型选择不同的AI
+                string aiType = monster.MonsterType switch
+                {
+                    eEntityType.Boss => "Monster", // 可以注册Boss类型的AI
+                    eEntityType.Elite => "Monster", // 可以注册Elite类型的AI
+                    _ => "Monster" // 默认使用Monster AI
+                };
+
+                var ai = AIFactory.AddAIToEntity(aiType, monster);
+                if (ai == null)
+                {
+                    UnityEngine.Debug.LogError($"为怪物 {monster.Name} 添加AI组件失败");
+                }
+            }
+
             return monster;
         }
 

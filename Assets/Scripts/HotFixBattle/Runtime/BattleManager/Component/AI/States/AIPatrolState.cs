@@ -9,24 +9,32 @@ namespace Game.Logic.BattleModule.Component.AI
     /// </summary>
     public class AIPatrolState : AIStateBase
     {
-        private readonly IAIBehavior _patrolBehavior;
-        private readonly IAIBehavior _findTargetBehavior;
+        private IAIBehavior _patrolBehavior;
+        private AIFindTarget _findTargetBehavior;
+        private Func<BaseEntity, bool> _targetFilter;
 
-        public AIPatrolState(AIComponent ai) : base(ai)
+        public AIPatrolState()
         {
+            
+        }
+        public override void Initialize(AIComponent ai)
+        {
+            base.Initialize(ai);
             // 创建巡逻行为
             var patrolSequence = new AISequence();
             patrolSequence.AddChild(new AIRandomMove(2.0f));
             patrolSequence.AddChild(new AIWait(1.0f));
             _patrolBehavior = patrolSequence;
-
             // 创建寻找目标行为
-            _findTargetBehavior = new AIFindTarget();
+            _findTargetBehavior = new AIFindTarget(_targetFilter);
         }
 
-        public AIPatrolState() : base()
+        public void SetTargetFilter(Func<BaseEntity, bool> targetFilter)
         {
-
+            if(targetFilter == null)
+                return;
+            _targetFilter = targetFilter;
+            _findTargetBehavior.SetTargetFilter(targetFilter);
         }
 
         public override void Enter()

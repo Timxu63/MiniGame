@@ -28,7 +28,7 @@ namespace Game.Logic.BattleModule.Component.AI
         /// <summary>
         /// AI感知范围
         /// </summary>
-        public float PerceptionRange { get; set; } = 10.0f;
+        public float PerceptionRange { get; set; } = 100.0f;
 
         /// <summary>
         /// AI攻击范围
@@ -100,6 +100,44 @@ namespace Game.Logic.BattleModule.Component.AI
         protected virtual void MakeDecision()
         {
             // 子类可重写此方法实现特定的决策逻辑
+            // 使用决策器做出决策
+            AIDecision decision = DecisionMaker.MakeDecision(this);
+
+            // 根据决策结果切换状态
+            switch (decision)
+            {
+                case AIDecision.Flee:
+                    if (!StateMachine.IsInState<AIFleeState>())
+                    {
+                        StateMachine.ChangeState<AIFleeState>();
+                    }
+                    break;
+                case AIDecision.Attack:
+                    if (!StateMachine.IsInState<AIAttackState>())
+                    {
+                        StateMachine.ChangeState<AIAttackState>();
+                    }
+                    break;
+                case AIDecision.Move:
+                    if (!StateMachine.IsInState<AIChaseState>())
+                    {
+                        StateMachine.ChangeState<AIChaseState>();
+                    }
+                    break;
+                case AIDecision.Patrol:
+                    if (!StateMachine.IsInState<AIPatrolState>())
+                    {
+                        StateMachine.ChangeState<AIPatrolState>();
+                    }
+                    break;
+                case AIDecision.Idle:
+                    // 可以添加待机状态，这里暂时使用巡逻状态
+                    if (!StateMachine.IsInState<AIPatrolState>())
+                    {
+                        StateMachine.ChangeState<AIPatrolState>();
+                    }
+                    break;
+            }
         }
 
         /// <summary>

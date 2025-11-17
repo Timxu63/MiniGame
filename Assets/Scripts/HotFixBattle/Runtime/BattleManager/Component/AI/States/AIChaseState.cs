@@ -9,17 +9,17 @@ namespace Game.Logic.BattleModule.Component.AI
     /// </summary>
     public class AIChaseState : AIStateBase
     {
-        private readonly IAIBehavior _chaseBehavior;
-
-        public AIChaseState(AIComponent ai) : base(ai)
-        {
-            // 创建追逐行为
-            _chaseBehavior = new AIMoveToTarget();
-        }
+        private IAIBehavior _chaseBehavior;
 
         public AIChaseState() : base()
         {
 
+        }
+        public override void Initialize(AIComponent ai)
+        {
+            base.Initialize(ai);
+            // 创建追逐行为
+            _chaseBehavior = new AIMoveToTarget();
         }
 
         public override void Enter()

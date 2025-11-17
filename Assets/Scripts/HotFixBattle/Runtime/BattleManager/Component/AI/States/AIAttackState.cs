@@ -9,19 +9,18 @@ namespace Game.Logic.BattleModule.Component.AI
     /// </summary>
     public class AIAttackState : AIStateBase
     {
-        private readonly IAIBehavior _attackBehavior;
-
-        public AIAttackState(AIComponent ai) : base(ai)
-        {
-            // 创建攻击行为
-            _attackBehavior = new AIAttackTarget(1.0f); // 1秒攻击冷却
-        }
+        private IAIBehavior _attackBehavior;
 
         public AIAttackState() : base()
         {
 
         }
-
+        public override void Initialize(AIComponent ai)
+        {
+            base.Initialize(ai);
+            // 创建攻击行为
+            _attackBehavior = new AIAttackTarget(1.0f); // 1秒攻击冷却
+        }
         public override void Enter()
         {
             // 进入攻击状态时的处理

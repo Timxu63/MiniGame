@@ -21,19 +21,19 @@ namespace Game.Logic.BattleModule.Component.AI
             switch (owner.MonsterType)
             {
                 case eEntityType.Monster:
-                    PerceptionRange = 8.0f;
+                    PerceptionRange = 100.0f;
                     AttackRange = 2.0f;
                     break;
                 case eEntityType.Elite:
-                    PerceptionRange = 10.0f;
+                    PerceptionRange = 100.0f;
                     AttackRange = 2.5f;
                     break;
                 case eEntityType.Boss:
-                    PerceptionRange = 15.0f;
+                    PerceptionRange = 100.0f;
                     AttackRange = 3.0f;
                     break;
                 default:
-                    PerceptionRange = 8.0f;
+                    PerceptionRange = 100.0f;
                     AttackRange = 2.0f;
                     break;
             }
@@ -44,11 +44,16 @@ namespace Game.Logic.BattleModule.Component.AI
         /// </summary>
         protected override void InitializeStates()
         {
+            // 定义怪物寻找目标的过滤器
+            Func<BaseEntity, bool> monsterTargetFilter = entity => entity.IsAlive && entity.Type == eEntityType.Player;
+
             // 添加通用状态
-            StateMachine.AddState<AIPatrolState>();
-            StateMachine.AddState<AIChaseState>();
-            StateMachine.AddState<AIAttackState>();
-            StateMachine.AddState<AIFleeState>();
+            AIPatrolState aiPatrolState = StateMachine.AddState<AIPatrolState>(this);
+            aiPatrolState.SetTargetFilter(monsterTargetFilter);
+            
+            StateMachine.AddState<AIChaseState>(this);
+            StateMachine.AddState<AIAttackState>(this);
+            StateMachine.AddState<AIFleeState>(this);
 
             // 设置初始状态为巡逻状态
             StateMachine.ChangeState<AIPatrolState>();
@@ -60,7 +65,7 @@ namespace Game.Logic.BattleModule.Component.AI
         protected override void InitializeBehaviors()
         {
             // 添加决策规则
-            DecisionMaker.AddRule(AIDecisionRules.LowHealthFlee(0.3f));  // 生命值低于30%时逃跑
+            // DecisionMaker.AddRule(AIDecisionRules.LowHealthFlee(0.3f));  // 生命值低于30%时逃跑
             DecisionMaker.AddRule(AIDecisionRules.AttackTargetInRange());   // 有目标且在攻击范围内则攻击
             DecisionMaker.AddRule(AIDecisionRules.MoveToTarget());         // 有目标但不在攻击范围内则移动
             DecisionMaker.AddRule(AIDecisionRules.PatrolWhenNoTarget());   // 没有目标则巡逻
@@ -84,44 +89,7 @@ namespace Game.Logic.BattleModule.Component.AI
         /// </summary>
         protected override void MakeDecision()
         {
-            // 使用决策器做出决策
-            AIDecision decision = DecisionMaker.MakeDecision(this);
-
-            // 根据决策结果切换状态
-            switch (decision)
-            {
-                case AIDecision.Flee:
-                    if (!StateMachine.IsInState<AIFleeState>())
-                    {
-                        StateMachine.ChangeState<AIFleeState>();
-                    }
-                    break;
-                case AIDecision.Attack:
-                    if (!StateMachine.IsInState<AIAttackState>())
-                    {
-                        StateMachine.ChangeState<AIAttackState>();
-                    }
-                    break;
-                case AIDecision.Move:
-                    if (!StateMachine.IsInState<AIChaseState>())
-                    {
-                        StateMachine.ChangeState<AIChaseState>();
-                    }
-                    break;
-                case AIDecision.Patrol:
-                    if (!StateMachine.IsInState<AIPatrolState>())
-                    {
-                        StateMachine.ChangeState<AIPatrolState>();
-                    }
-                    break;
-                case AIDecision.Idle:
-                    // 可以添加待机状态，这里暂时使用巡逻状态
-                    if (!StateMachine.IsInState<AIPatrolState>())
-                    {
-                        StateMachine.ChangeState<AIPatrolState>();
-                    }
-                    break;
-            }
+            base.MakeDecision();
         }
     }
 }

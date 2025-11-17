@@ -10,7 +10,7 @@ namespace Game.Logic.BattleModule.Component.AI
     /// </summary>
     public class AIFindTarget : AIBehaviorBase
     {
-        private readonly Func<BaseEntity, bool> _targetFilter;
+        private Func<BaseEntity, bool> _targetFilter;
 
         public override string Name => "FindTarget";
 
@@ -18,7 +18,10 @@ namespace Game.Logic.BattleModule.Component.AI
         {
             _targetFilter = targetFilter ?? (entity => entity.IsAlive && entity.Type != eEntityType.Monster);
         }
-
+        public void SetTargetFilter(Func<BaseEntity, bool> targetFilter = null)
+        {
+            _targetFilter = targetFilter ?? (entity => entity.IsAlive && entity.Type != eEntityType.Monster);
+        }
         public override AIBehaviorResult Execute(AIComponent ai, float deltaTime)
         {
             // 如果已有目标且目标存活，则返回成功

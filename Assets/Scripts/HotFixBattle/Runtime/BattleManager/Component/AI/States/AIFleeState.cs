@@ -9,21 +9,20 @@ namespace Game.Logic.BattleModule.Component.AI
     /// </summary>
     public class AIFleeState : AIStateBase
     {
-        private readonly IAIBehavior _fleeBehavior;
+        private IAIBehavior _fleeBehavior;
         private float _fleeTimer = 0f;
         private readonly float _fleeDuration = 3.0f;
-
-        public AIFleeState(AIComponent ai) : base(ai)
-        {
-            // 创建逃跑行为
-            _fleeBehavior = new AIRandomMove(0.5f);
-        }
-
+        
         public AIFleeState() : base()
         {
 
         }
-
+        public override void Initialize(AIComponent ai)
+        {
+            base.Initialize(ai);
+            // 创建逃跑行为
+            _fleeBehavior = new AIRandomMove(0.5f);
+        }
         public override void Enter()
         {
             // 重置逃跑计时器
