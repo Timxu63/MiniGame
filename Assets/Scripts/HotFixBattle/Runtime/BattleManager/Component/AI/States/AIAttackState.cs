@@ -9,7 +9,7 @@ namespace Game.Logic.BattleModule.Component.AI
     /// </summary>
     public class AIAttackState : AIStateBase
     {
-        private IAIBehavior _attackBehavior;
+        private AIAttackTarget _attackBehavior;
 
         public AIAttackState() : base()
         {

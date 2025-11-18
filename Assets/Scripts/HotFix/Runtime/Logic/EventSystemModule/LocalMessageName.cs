@@ -11,6 +11,7 @@ namespace HotFix
         CC_EntityDamaged,
         CC_EntityHealed,
         CC_EntityDeath,
+        CC_PreloadProgress,     //预加载进度
         #endregion
     }
 }

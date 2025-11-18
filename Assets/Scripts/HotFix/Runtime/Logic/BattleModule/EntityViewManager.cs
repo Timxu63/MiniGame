@@ -31,11 +31,14 @@ namespace HotFixBattle
 
         private EntityViewData _playerViewData;
         public EntityViewData PlayerViewData => _playerViewData;
+        
+        private BattleWorldContext _worldContext;
         /// <summary>
         /// 初始化实体视图管理器
         /// </summary>
-        public void Initialize()
-        {                                          
+        public void Initialize(BattleWorldContext worldContext)
+        {
+            _worldContext = worldContext;
             // 注册事件监听
             GameApp.Event.RegisterEvent((int)LocalMessageName.CC_EntityCreated, OnEntityCreated);
             GameApp.Event.RegisterEvent((int)LocalMessageName.CC_EntityDestroyed, OnEntityDestroyed);
@@ -71,6 +74,7 @@ namespace HotFixBattle
 
             _entityViewDatas.Clear();
             _playerViewData = null;
+            _worldContext = null;
         }
 
 

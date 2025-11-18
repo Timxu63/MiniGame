@@ -26,8 +26,7 @@ namespace HotFix
 
         public override void OnEnter()
         {
-            // 初始化实体视图管理器
-            EntityViewManager.Instance.Initialize();
+           
             _battleDataModule =
                 GameApp.DataModule.GetDataModule<BattleDataModule>((int)DataName.BattleDataModule);
 #if UNITY_EDITOR
@@ -40,6 +39,8 @@ namespace HotFix
             }
 #endif
             _worldContext = new BattleWorldContext();
+            // 初始化实体视图管理器
+            EntityViewManager.Instance.Initialize(_worldContext);
             // 创建战斗流程控制器
             _battleFlowController = new BattleFlowController(_worldContext);
             InitWorldContent(_battleFlowController);
@@ -51,12 +52,71 @@ namespace HotFix
 
         private async void AsyncInitAsset()
         {
+            // 战斗模式下的资源预加载
+            await PreloadBattleResources();
+
+            // 通用资源初始化
+            await InitCommonResources();
+
+            // 完成初始化
+            OnAsyncFinish();
+        }
+
+        /// <summary>
+        /// 预加载战斗相关资源
+        /// </summary>
+        private async Task PreloadBattleResources()
+        {
+            // 获取战斗数据
+            var battleDataModule = GameApp.DataModule.GetDataModule<BattleDataModule>((int)DataName.BattleDataModule);
+            if (battleDataModule?.m_openBattleData?.ModeData != null)
+            {
+                // 设置当前章节ID
+                _worldContext.BattleResourcePreloader.SetCurrentChapter(battleDataModule.m_openBattleData.ModeData.ChapterId);
+
+                // 订阅预加载进度事件
+                _worldContext.BattleResourcePreloader.OnProgressChanged += OnBattlePreloadProgressChanged;
+                _worldContext.BattleResourcePreloader.OnPreloadCompleted += OnBattlePreloadCompleted;
+
+                // 开始预加载
+                _worldContext.BattleResourcePreloader.StartPreloadAsync();
+            }
+            else
+            {
+                Logger.LogWarning("无法获取战斗数据，跳过资源预加载");
+            }
+        }
+
+        /// <summary>
+        /// 战斗资源预加载进度变化处理
+        /// </summary>
+        private void OnBattlePreloadProgressChanged(float progress)
+        {
+            // 发送进度事件
+            // GameApp.Event.DispatchNow((int)LocalMessageName.CC_PreloadProgress, progress);
+        }
+
+        /// <summary>
+        /// 战斗资源预加载完成处理
+        /// </summary>
+        private void OnBattlePreloadCompleted()
+        {
+            // 取消订阅事件
+            var preloader = _worldContext.BattleResourcePreloader;
+            preloader.OnProgressChanged -= OnBattlePreloadProgressChanged;
+            preloader.OnPreloadCompleted -= OnBattlePreloadCompleted;
+        }
+
+        /// <summary>
+        /// 初始化通用资源
+        /// </summary>
+        private async Task InitCommonResources()
+        {
             await AsyncInitSceneAsset();
             await AsyncInitMapAsset();
             await AsyncInitCamera();
             await AsyncInitUIAsset();
             await AsyncInitPlayer();
-            OnAsyncFinish();
         }
 
         private async Task AsyncInitMapAsset()
@@ -148,6 +208,7 @@ namespace HotFix
         {
             _worldContext.Tables = GameTableProxy.Tables;
             _worldContext.BattleFlowController = battleFlowController;
+            _worldContext.BattleResourcePreloader = new BattleResourcePreloaderBasic(_worldContext);
             MapManager.Instance.Initialize(_worldContext);
         }
         public override void OnUpdate(float deltaTime, float unscaledDeltaTime)
@@ -179,6 +240,7 @@ namespace HotFix
             {
                 (int)ViewName.UILoading
             });
+            AssetsPoolManager.Instance.ForceReleaseAll();
             GameNode.Instance.OnWorldToMain();
         }
 

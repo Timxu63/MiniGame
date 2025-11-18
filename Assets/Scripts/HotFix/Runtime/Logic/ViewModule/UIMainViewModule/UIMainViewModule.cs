@@ -39,7 +39,6 @@ namespace HotFix
         public override void OnOpen(object data)
         {
             Reward item =GameTableProxy.Tables.TbReward.Get(1002);
-            Debug.LogError(item.Name);
         }
 
         public override void OnClose()

@@ -6,5 +6,6 @@ namespace HotFixBattle
     {
         public Tables Tables;
         public BattleFlowController BattleFlowController;
+        public BattleResourcePreloaderBasic BattleResourcePreloader;
     }
 }
