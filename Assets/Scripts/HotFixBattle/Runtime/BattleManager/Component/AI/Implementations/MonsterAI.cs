@@ -54,7 +54,6 @@ namespace Game.Logic.BattleModule.Component.AI
             StateMachine.AddState<AIChaseState>(this);
             StateMachine.AddState<AIAttackState>(this);
             StateMachine.AddState<AIFleeState>(this);
-
             // 设置初始状态为巡逻状态
             StateMachine.ChangeState<AIPatrolState>();
         }
