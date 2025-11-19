@@ -17,6 +17,11 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 6f6eae70ae52e354e809c21a90156b53
   m_SerializeEntries:
+  - m_GUID: 15f407e8b63b7724d81c318447646cef
+    m_Address: Assets/_Resources/Prefab/Entity/Monster/Enemy2.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bc35f1a17e130bf47827b75ea1a6c281
     m_Address: Assets/_Resources/Prefab/Entity/Monster/Enemy1.prefab
     m_ReadOnly: 0

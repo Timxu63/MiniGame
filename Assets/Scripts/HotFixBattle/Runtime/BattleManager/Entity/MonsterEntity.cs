@@ -54,26 +54,22 @@ namespace Game.Logic.BattleModule.Entity
         /// </summary>
         /// <param name="name">怪物名称</param>
         /// <param name="maxHealth">最大生命值</param>
+        /// <param name="charactor">角色配置数据</param>
         /// <param name="level">怪物等级</param>
-        /// <param name="attackPower">攻击力</param>
-        /// <param name="defense">防御力</param>
         /// <param name="monsterType">怪物类型</param>
         /// <param name="dropExperience">掉落经验值</param>
         /// <param name="dropGold">掉落金币</param>
         /// <param name="survivalTime">生存时间（秒）</param>
-        public MonsterEntity(string name, int maxHealth, Charactor charactor, int level = 1, int attackPower = 5, 
-            int defense = 2, eEntityType monsterType = eEntityType.Monster, 
+        public MonsterEntity(string name, int maxHealth, Charactor charactor, int level = 1, 
+            eEntityType monsterType = eEntityType.Monster, 
             int dropExperience = 10, int dropGold = 5, float survivalTime = 10f, int chapterId = 1)
-            : base(name, eEntityType.Monster, maxHealth)
+            : base(name, eEntityType.Monster, maxHealth, charactor)
         {
             Level = level;
-            AttackPower = attackPower;
-            Defense = defense;
             MonsterType = monsterType;
             DropExperience = dropExperience;
             DropGold = dropGold;
             _maxSurvivalTime = survivalTime;
-            Charactor = charactor;
 
             // 存储章节ID，用于获取AI参数
             ChapterId = chapterId;

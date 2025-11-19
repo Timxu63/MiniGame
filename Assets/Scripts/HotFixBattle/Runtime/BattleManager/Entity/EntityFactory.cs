@@ -73,9 +73,7 @@ namespace Game.Logic.BattleModule.Entity
                     playerParams.Name,
                     playerParams.MaxHealth,
                     playerParams.CharactorConfig,
-                    playerParams.Level,
-                    playerParams.AttackPower,
-                    playerParams.Defense
+                    playerParams.Level
                 );
             }
 
@@ -96,8 +94,6 @@ namespace Game.Logic.BattleModule.Entity
                     monsterParams.MaxHealth,
                     monsterParams.CharactorConfig,
                     monsterParams.Level,
-                    monsterParams.AttackPower,
-                    monsterParams.Defense,
                     monsterParams.MonsterType,
                     monsterParams.DropExperience,
                     monsterParams.DropGold,
@@ -158,8 +154,6 @@ namespace Game.Logic.BattleModule.Entity
     public class PlayerCreationParams : EntityCreationParams
     {
         public int Level { get; set; } = 1;
-        public int AttackPower { get; set; } = 10;
-        public int Defense { get; set; } = 5;
     }
 
     /// <summary>
@@ -168,8 +162,6 @@ namespace Game.Logic.BattleModule.Entity
     public class MonsterCreationParams : EntityCreationParams
     {
         public int Level { get; set; } = 1;
-        public int AttackPower { get; set; } = 5;
-        public int Defense { get; set; } = 2;
         public eEntityType MonsterType { get; set; } = eEntityType.Monster;
         public int DropExperience { get; set; } = 10;
         public int DropGold { get; set; } = 5;

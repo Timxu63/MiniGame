@@ -160,6 +160,10 @@ PrefabInstance:
       propertyPath: m_ReferenceResolution.y
       value: 1080
       objectReference: {fileID: 0}
+    - target: {fileID: 4123124654485954752, guid: ac72d99724bdaa340a65c180082098b4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6465368607564572479, guid: ac72d99724bdaa340a65c180082098b4, type: 3}
       propertyPath: m_ReferenceResolution.x
       value: 1920

@@ -54,10 +54,10 @@ namespace HotFix
         {
             // 战斗模式下的资源预加载
             await PreloadBattleResources();
-
-            // 通用资源初始化
-            await InitCommonResources();
-
+            await AsyncInitUIAsset();
+            await AsyncInitMapAsset();
+            await AsyncInitCamera();
+            await AsyncInitPlayer();
             // 完成初始化
             OnAsyncFinish();
         }
@@ -71,15 +71,12 @@ namespace HotFix
             var battleDataModule = GameApp.DataModule.GetDataModule<BattleDataModule>((int)DataName.BattleDataModule);
             if (battleDataModule?.m_openBattleData?.ModeData != null)
             {
-                // 设置当前章节ID
-                _worldContext.BattleResourcePreloader.SetCurrentChapter(battleDataModule.m_openBattleData.ModeData.ChapterId);
-
                 // 订阅预加载进度事件
-                _worldContext.BattleResourcePreloader.OnProgressChanged += OnBattlePreloadProgressChanged;
-                _worldContext.BattleResourcePreloader.OnPreloadCompleted += OnBattlePreloadCompleted;
+                BattleResourceManager.Instance.OnPreloadProgressChanged += OnBattlePreloadProgressChanged;
+                BattleResourceManager.Instance.OnPreloadCompleted += OnBattlePreloadCompleted;
 
                 // 开始预加载
-                _worldContext.BattleResourcePreloader.StartPreloadAsync();
+                BattleResourceManager.Instance.OnPreloadCompletedHandler();
             }
             else
             {
@@ -102,21 +99,8 @@ namespace HotFix
         private void OnBattlePreloadCompleted()
         {
             // 取消订阅事件
-            var preloader = _worldContext.BattleResourcePreloader;
-            preloader.OnProgressChanged -= OnBattlePreloadProgressChanged;
-            preloader.OnPreloadCompleted -= OnBattlePreloadCompleted;
-        }
-
-        /// <summary>
-        /// 初始化通用资源
-        /// </summary>
-        private async Task InitCommonResources()
-        {
-            await AsyncInitSceneAsset();
-            await AsyncInitMapAsset();
-            await AsyncInitCamera();
-            await AsyncInitUIAsset();
-            await AsyncInitPlayer();
+            BattleResourceManager.Instance.OnPreloadProgressChanged -= OnBattlePreloadProgressChanged;
+            BattleResourceManager.Instance.OnPreloadCompleted -= OnBattlePreloadCompleted;
         }
 
         private async Task AsyncInitMapAsset()
@@ -160,11 +144,9 @@ namespace HotFix
             var playerParams = new PlayerCreationParams
             {
                 Name = charactor.Name,
-                MaxHealth = 100,  // 默认最大生命值
+                MaxHealth = (int)charactor.Hp,  // 从配置表获取最大生命值
                 CharactorConfig = charactor,
                 Level = 1,        // 默认等级
-                AttackPower = 10, // 默认攻击力
-                Defense = 5,      // 默认防御力
                 Position = centerPosition // 设置玩家位置为地图中心点
             };
 
@@ -186,11 +168,6 @@ namespace HotFix
                 _cameraManager.OnLateUpdate(deltaTime, unscaledDeltaTime);
         }
 
-        private async Task AsyncInitSceneAsset()
-        {
-            await GameApp.Scene.LoadSceneAsync("Assets/_Resources/Scenes/Battle.scene", LoadSceneMode.Single);
-        }
-
         private async Task AsyncInitUIAsset()
         {
             await GameApp.View.OpenViewTask(ViewName.UIBattle);
@@ -208,7 +185,6 @@ namespace HotFix
         {
             _worldContext.Tables = GameTableProxy.Tables;
             _worldContext.BattleFlowController = battleFlowController;
-            _worldContext.BattleResourcePreloader = new BattleResourcePreloaderBasic(_worldContext);
             MapManager.Instance.Initialize(_worldContext);
         }
         public override void OnUpdate(float deltaTime, float unscaledDeltaTime)
@@ -236,6 +212,7 @@ namespace HotFix
             _cameraManager = null;
             // 清理实体视图管理器
             EntityViewManager.Instance.Cleanup();
+            BattleResourceManager.Instance.Cleanup();
             GameApp.View.CloseAllView(new int[]
             {
                 (int)ViewName.UILoading

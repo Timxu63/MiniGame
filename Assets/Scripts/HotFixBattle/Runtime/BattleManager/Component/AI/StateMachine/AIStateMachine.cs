@@ -124,9 +124,6 @@ namespace Game.Logic.BattleModule.Component.AI
         {
             // 执行全局状态
             GlobalState?.Execute(deltaTime);
-
-            // 执行当前状态
-            CurrentState?.Execute(deltaTime);
         }
 
         /// <summary>

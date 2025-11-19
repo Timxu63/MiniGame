@@ -9,7 +9,7 @@ namespace Game.Logic.BattleModule.Component.AI
     /// </summary>
     public class AIChaseState : AIStateBase
     {
-        private IAIBehavior _chaseBehavior;
+        private AIMoveToTarget _chaseBehavior;
 
         public AIChaseState() : base()
         {

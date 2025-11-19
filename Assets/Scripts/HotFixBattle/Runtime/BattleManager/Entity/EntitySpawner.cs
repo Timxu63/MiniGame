@@ -119,10 +119,8 @@ namespace Game.Logic.BattleModule
             var monsterParams = new MonsterCreationParams
             {
                 Name = charactorConfig.Name,
-                MaxHealth = 100, // 默认生命值，可以从配置表获取
+                MaxHealth = (int)charactorConfig.Hp, // 从配置表获取生命值
                 Level = 1, // 默认等级，可以从配置表获取
-                AttackPower = 10, // 默认攻击力，可以从配置表获取
-                Defense = 5, // 默认防御力，可以从配置表获取
                 MonsterType = charactorConfig.Type, // 默认怪物类型，可以从配置表获取
                 DropExperience = 10, // 默认经验值，可以从配置表获取
                 DropGold = 5, // 默认金币，可以从配置表获取

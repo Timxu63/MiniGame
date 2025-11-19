@@ -73,7 +73,7 @@ namespace Game.Logic.BattleModule.Component.AI
             StateMachine.Update(deltaTime);
 
             // 执行当前状态的行为
-            ExecuteCurrentState(deltaTime);
+            StateMachine.CurrentState?.Execute(deltaTime);
         }
 
         /// <summary>
@@ -138,15 +138,6 @@ namespace Game.Logic.BattleModule.Component.AI
                     }
                     break;
             }
-        }
-
-        /// <summary>
-        /// 执行当前状态的行为
-        /// </summary>
-        /// <param name="deltaTime">时间增量</param>
-        protected virtual void ExecuteCurrentState(float deltaTime)
-        {
-            StateMachine.CurrentState?.Execute(deltaTime);
         }
 
         /// <summary>

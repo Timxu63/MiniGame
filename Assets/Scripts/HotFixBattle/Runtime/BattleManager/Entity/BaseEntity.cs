@@ -58,9 +58,19 @@ namespace Game.Logic.BattleModule.Entity
         
         
         /// <summary>
+        /// 攻击力
+        /// </summary>
+        public float AttackPower { get; protected set; }
+
+        /// <summary>
+        /// 防御力
+        /// </summary>
+        public float Defense { get; protected set; }
+
+        /// <summary>
         /// 移动速度
         /// </summary>
-        public float MoveSpeed { get; set; } = 5.0f;
+        public float MoveSpeed { get; protected set; }
 
         /// <summary>
         /// 实体状态管理器
@@ -77,7 +87,8 @@ namespace Game.Logic.BattleModule.Entity
         /// <param name="name">实体名称</param>
         /// <param name="type">实体类型</param>
         /// <param name="maxHealth">最大生命值</param>
-        protected BaseEntity(string name, eEntityType type, int maxHealth)
+        /// <param name="charactor">角色配置数据</param>
+        protected BaseEntity(string name, eEntityType type, int maxHealth, Charactor charactor = null)
         {
             Id = _nextId++;
             Name = name;
@@ -86,6 +97,23 @@ namespace Game.Logic.BattleModule.Entity
             CurrentHealth = maxHealth;
             IsAlive = true;
             LocalPosition = Vector3.zero; // 设置默认位置为 (0,0,0)
+            Charactor = charactor;
+
+            // 从Charactor表读取属性数据
+            if (charactor != null)
+            {
+                // 如果有Charactor数据，从中读取属性
+                AttackPower = charactor.Attack;
+                Defense = charactor.Defense;
+                MoveSpeed = charactor.Speed;
+            }
+            else
+            {
+                // 如果没有Charactor数据，使用默认值
+                AttackPower = 10;
+                Defense = 5;
+                MoveSpeed = 5.0f;
+            }
 
             // 初始化状态管理器
             StateManager = new EntityStateManager(this);
@@ -212,7 +240,6 @@ namespace Game.Logic.BattleModule.Entity
 
             // 将2D方向转换为3D方向
             Vector3 moveDirection = new Vector3(direction.x, 0, direction.y).normalized;
-
             // 计算下一帧位置
             Vector3 nextPosition = LocalPosition + moveDirection * MoveSpeed * Time.deltaTime;
 

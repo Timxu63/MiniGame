@@ -39,15 +39,15 @@ namespace Game.Logic.BattleModule.Entity
         /// </summary>
         /// <param name="name">物体名称</param>
         /// <param name="maxHealth">最大生命值</param>
+        /// <param name="charactor">角色配置数据</param>
         public ObjectEntity(string name, int maxHealth, Charactor charactor)
-            : base(name, eEntityType.Object, maxHealth)
+            : base(name, eEntityType.Object, maxHealth, charactor)
         {
             ObjectType = ObjectType.Static;
             IsInteractable = false;
             IsDestructible = false;
             InteractionRequirement = null;
             DropItemIds = new int[0];
-            Charactor = charactor;
         }
 
         /// <summary>

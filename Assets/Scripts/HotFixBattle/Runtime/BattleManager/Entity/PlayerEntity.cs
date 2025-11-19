@@ -5,6 +5,7 @@ using Framework.EventSystem;
 using Framework.Runtime;
 using HotFix;
 using HotFixBattle;
+using UnityEngine;
 
 namespace Game.Logic.BattleModule.Entity
 {
@@ -44,18 +45,14 @@ namespace Game.Logic.BattleModule.Entity
         /// </summary>
         /// <param name="name">玩家名称</param>
         /// <param name="maxHealth">最大生命值</param>
+        /// <param name="charactor">角色配置数据</param>
         /// <param name="level">玩家等级</param>
-        /// <param name="attackPower">攻击力</param>
-        /// <param name="defense">防御力</param>
-        public PlayerEntity(string name, int maxHealth, Charactor charactor, int level = 1, int attackPower = 10, int defense = 5)
-            : base(name, eEntityType.Player, maxHealth)
+        public PlayerEntity(string name, int maxHealth, Charactor charactor, int level = 1)
+            : base(name, eEntityType.Player, maxHealth, charactor)
         {
             Level = level;
             Experience = 0;
-            AttackPower = attackPower;
-            Defense = defense;
             SkillPoints = 0;
-            Charactor = charactor;
             GameApp.Event.RegisterEvent((int)LocalMessageName.CC_PlayerMove, OnPlayerMove);
         }
 
@@ -64,6 +61,11 @@ namespace Game.Logic.BattleModule.Entity
             if (IsAlive)
             {
                 var MoveDirection = (eventargs as DirectionChangedEventArgs).Direction;
+                // 确保方向向量是归一化的
+                if (MoveDirection != Vector2.zero)
+                {
+                    MoveDirection = MoveDirection.normalized;
+                }
                 Move(MoveDirection);
             }
         }

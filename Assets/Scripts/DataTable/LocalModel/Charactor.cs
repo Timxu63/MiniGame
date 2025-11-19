@@ -21,6 +21,10 @@ public sealed partial class Charactor : Luban.BeanBase
         Type = (eEntityType)_buf.ReadInt();
         ResourceID = _buf.ReadInt();
         SurvivalTime = _buf.ReadFloat();
+        Hp = _buf.ReadFloat();
+        Attack = _buf.ReadFloat();
+        Defense = _buf.ReadFloat();
+        Speed = _buf.ReadFloat();
     }
 
     public static Charactor DeserializeCharactor(ByteBuf _buf)
@@ -48,6 +52,22 @@ public sealed partial class Charactor : Luban.BeanBase
     /// 生存时长
     /// </summary>
     public readonly float SurvivalTime;
+    /// <summary>
+    /// 血
+    /// </summary>
+    public readonly float Hp;
+    /// <summary>
+    /// 攻
+    /// </summary>
+    public readonly float Attack;
+    /// <summary>
+    /// 防
+    /// </summary>
+    public readonly float Defense;
+    /// <summary>
+    /// 速度
+    /// </summary>
+    public readonly float Speed;
    
     public const int __ID__ = -726803393;
     public override int GetTypeId() => __ID__;
@@ -64,6 +84,10 @@ public sealed partial class Charactor : Luban.BeanBase
         + "type:" + Type + ","
         + "ResourceID:" + ResourceID + ","
         + "survivalTime:" + SurvivalTime + ","
+        + "Hp:" + Hp + ","
+        + "Attack:" + Attack + ","
+        + "Defense:" + Defense + ","
+        + "Speed:" + Speed + ","
         + "}";
     }
 }

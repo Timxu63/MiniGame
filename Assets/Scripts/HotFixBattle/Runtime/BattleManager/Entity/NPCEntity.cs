@@ -34,14 +34,14 @@ namespace Game.Logic.BattleModule.Entity
         /// </summary>
         /// <param name="name">NPC名称</param>
         /// <param name="maxHealth">最大生命值</param>
+        /// <param name="charactor">角色配置数据</param>
         public NPCEntity(string name, int maxHealth, Charactor charactor)
-            : base(name, eEntityType.NPC, maxHealth)
+            : base(name, eEntityType.NPC, maxHealth, charactor)
         {
             Dialogues = new string[0];
             ShopItemIds = new int[0];
             IsMerchant = false;
             FunctionType = NPCFunctionType.Talker;
-            Charactor = charactor;
         }
 
         /// <summary>
