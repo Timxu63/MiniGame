@@ -15,15 +15,22 @@ namespace HotFixBattle.AI
         {
             return new AIBehaviorGroup
             {
+                
                 Name = "NormalMonster",
-                States = new List<string> { "Patrol", "Chase", "Attack", "Flee" },
+                States = new List<string> 
+                { 
+                    AIStringMappings.StateTypeToString[AIStateType.Patrol],
+                    AIStringMappings.StateTypeToString[AIStateType.Chase],
+                    AIStringMappings.StateTypeToString[AIStateType.Attack],
+                    AIStringMappings.StateTypeToString[AIStateType.Flee]
+                },
                 DecisionRules = new List<string> 
                 { 
-                    "LowHealthFlee:0.3", 
-                    "AttackTargetInRange", 
-                    "MoveToTarget", 
-                    "PatrolWhenNoTarget", 
-                    "DefaultIdle" 
+                    $"{AIStringMappings.DecisionRuleTypeToString[AIDecisionRuleType.LowHealthFlee]}:0.3", 
+                    AIStringMappings.DecisionRuleTypeToString[AIDecisionRuleType.AttackTargetInRange], 
+                    AIStringMappings.DecisionRuleTypeToString[AIDecisionRuleType.MoveToTarget], 
+                    AIStringMappings.DecisionRuleTypeToString[AIDecisionRuleType.PatrolWhenNoTarget], 
+                    AIStringMappings.DecisionRuleTypeToString[AIDecisionRuleType.DefaultIdle] 
                 }
             };
         }

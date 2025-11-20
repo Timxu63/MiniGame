@@ -16,13 +16,19 @@ namespace HotFixBattle.AI
             return new AIBehaviorGroup
             {
                 Name = "Boss",
-                States = new List<string> { "Patrol", "Chase", "Attack", "Flee" },
-                DecisionRules = new List<string> 
+                States = new List<string> 
                 { 
-                    "LowHealthFlee:0.1", 
-                    "AttackTargetInRange", 
-                    "PatrolWhenNoTarget", 
-                    "DefaultIdle" 
+                    AIStringMappings.StateTypeToString[AIStateType.Patrol],
+                    AIStringMappings.StateTypeToString[AIStateType.Chase],
+                    AIStringMappings.StateTypeToString[AIStateType.Attack],
+                    AIStringMappings.StateTypeToString[AIStateType.Flee]
+                },
+                DecisionRules = new List<string>
+                {
+                    $"{AIStringMappings.DecisionRuleTypeToString[AIDecisionRuleType.LowHealthFlee]}:0.1",
+                    AIStringMappings.DecisionRuleTypeToString[AIDecisionRuleType.AttackTargetInRange],
+                    AIStringMappings.DecisionRuleTypeToString[AIDecisionRuleType.PatrolWhenNoTarget],
+                    AIStringMappings.DecisionRuleTypeToString[AIDecisionRuleType.DefaultIdle]
                 }
             };
         }
