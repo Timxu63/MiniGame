@@ -42,37 +42,10 @@ namespace HotFixBattle.AI
         /// <summary>
         /// 初始化AI状态
         /// </summary>
-        protected override void InitializeStates()
+        protected override void InitializeAI()
         {
             // 使用AIBehaviorGroupLoader从Charactor配置中加载AI状态
             AIBehaviorGroupLoader.InitializeAI(this, Owner.Charactor);
-
-            // 添加通用状态
-
-            
-
-        }
-
-        /// <summary>
-        /// 初始化AI行为
-        /// </summary>
-        protected override void InitializeBehaviors()
-        {
-            // 使用AIBehaviorGroupLoader从Charactor配置中加载AI行为和决策规则
-            AIBehaviorGroupLoader.InitializeAI(this, Owner.Charactor);
-
-            // // 根据怪物属性添加特殊行为
-            // if (Owner.Charactor.Speed > 6.0f)
-            // {
-            //     // 高速怪物特殊行为
-            //     DecisionMaker.AddRule(SpecialDecisionRules.FlickerMove); // 闪烁移动
-            // }
-            //
-            // if (Owner.Charactor.Attack > 15.0f)
-            // {
-            //     // 高攻击力怪物特殊行为
-            //     DecisionMaker.AddRule(SpecialDecisionRules.PowerAttack); // 重击
-            // }
         }
 
         /// <summary>

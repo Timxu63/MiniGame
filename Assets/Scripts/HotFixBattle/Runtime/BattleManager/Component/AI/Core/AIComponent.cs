@@ -50,8 +50,7 @@ namespace HotFixBattle.AI
         public override void Initialize()
         {
             base.Initialize();
-            InitializeStates();
-            InitializeBehaviors();
+            InitializeAI();
         }
 
         /// <summary>
@@ -78,12 +77,7 @@ namespace HotFixBattle.AI
         /// <summary>
         /// 初始化AI状态
         /// </summary>
-        protected abstract void InitializeStates();
-
-        /// <summary>
-        /// 初始化AI行为
-        /// </summary>
-        protected abstract void InitializeBehaviors();
+        protected abstract void InitializeAI();
 
         /// <summary>
         /// 感知周围环境
