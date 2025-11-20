@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Game.Logic.BattleModule.Entity;
 
-namespace Game.Logic.BattleModule.Component.AI
+namespace HotFixBattle.AI
 {
     /// <summary>
     /// AI行为组合器，用于组合多个行为

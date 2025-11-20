@@ -2,7 +2,7 @@ using System;
 using cfg;
 using Game.Logic.BattleModule.Entity;
 
-namespace Game.Logic.BattleModule.Component.AI
+namespace HotFixBattle.AI
 {
     /// <summary>
     /// 通用攻击状态
@@ -10,10 +10,9 @@ namespace Game.Logic.BattleModule.Component.AI
     public class AIAttackState : AIStateBase
     {
         private AIAttackTarget _attackBehavior;
-
-        public AIAttackState() : base()
+        public AIAttackState(AIComponent ai) : base(ai)
         {
-
+            Initialize(ai);
         }
         public override void Initialize(AIComponent ai)
         {

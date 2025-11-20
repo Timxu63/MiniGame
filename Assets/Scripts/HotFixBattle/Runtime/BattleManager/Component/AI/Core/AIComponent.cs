@@ -1,9 +1,8 @@
 
-using System;
-using System.Collections.Generic;
+using Game.Logic.BattleModule.Component;
 using Game.Logic.BattleModule.Entity;
 
-namespace Game.Logic.BattleModule.Component.AI
+namespace HotFixBattle.AI
 {
     /// <summary>
     /// AI组件基类，所有AI组件都应继承自此类

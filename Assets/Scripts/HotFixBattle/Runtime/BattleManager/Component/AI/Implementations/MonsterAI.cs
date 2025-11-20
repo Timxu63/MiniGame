@@ -2,7 +2,7 @@ using System;
 using cfg;
 using Game.Logic.BattleModule.Entity;
 
-namespace Game.Logic.BattleModule.Component.AI
+namespace HotFixBattle.AI
 {
     /// <summary>
     /// 怪物AI组件，控制怪物的行为
@@ -44,18 +44,13 @@ namespace Game.Logic.BattleModule.Component.AI
         /// </summary>
         protected override void InitializeStates()
         {
-            // 定义怪物寻找目标的过滤器
-            Func<BaseEntity, bool> monsterTargetFilter = entity => entity.IsAlive && entity.Type == eEntityType.Player;
+            // 使用AIBehaviorGroupLoader从Charactor配置中加载AI状态
+            AIBehaviorGroupLoader.InitializeAI(this, Owner.Charactor);
 
             // 添加通用状态
-            AIPatrolState aiPatrolState = StateMachine.AddState<AIPatrolState>(this);
-            aiPatrolState.SetTargetFilter(monsterTargetFilter);
+
             
-            StateMachine.AddState<AIChaseState>(this);
-            StateMachine.AddState<AIAttackState>(this);
-            StateMachine.AddState<AIFleeState>(this);
-            // 设置初始状态为巡逻状态
-            StateMachine.ChangeState<AIPatrolState>();
+
         }
 
         /// <summary>
@@ -63,12 +58,21 @@ namespace Game.Logic.BattleModule.Component.AI
         /// </summary>
         protected override void InitializeBehaviors()
         {
-            // 添加决策规则
-            // DecisionMaker.AddRule(AIDecisionRules.LowHealthFlee(0.3f));  // 生命值低于30%时逃跑
-            DecisionMaker.AddRule(AIDecisionRules.AttackTargetInRange());   // 有目标且在攻击范围内则攻击
-            DecisionMaker.AddRule(AIDecisionRules.MoveToTarget());         // 有目标但不在攻击范围内则移动
-            DecisionMaker.AddRule(AIDecisionRules.PatrolWhenNoTarget());   // 没有目标则巡逻
-            DecisionMaker.AddRule(AIDecisionRules.DefaultIdle());           // 默认待机
+            // 使用AIBehaviorGroupLoader从Charactor配置中加载AI行为和决策规则
+            AIBehaviorGroupLoader.InitializeAI(this, Owner.Charactor);
+
+            // // 根据怪物属性添加特殊行为
+            // if (Owner.Charactor.Speed > 6.0f)
+            // {
+            //     // 高速怪物特殊行为
+            //     DecisionMaker.AddRule(SpecialDecisionRules.FlickerMove); // 闪烁移动
+            // }
+            //
+            // if (Owner.Charactor.Attack > 15.0f)
+            // {
+            //     // 高攻击力怪物特殊行为
+            //     DecisionMaker.AddRule(SpecialDecisionRules.PowerAttack); // 重击
+            // }
         }
 
         /// <summary>

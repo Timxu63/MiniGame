@@ -2,7 +2,7 @@ using System;
 using cfg;
 using Game.Logic.BattleModule.Entity;
 
-namespace Game.Logic.BattleModule.Component.AI
+namespace HotFixBattle.AI
 {
     /// <summary>
     /// 通用追逐状态
@@ -10,10 +10,9 @@ namespace Game.Logic.BattleModule.Component.AI
     public class AIChaseState : AIStateBase
     {
         private AIMoveToTarget _chaseBehavior;
-
-        public AIChaseState() : base()
+        public AIChaseState(AIComponent ai) : base(ai)
         {
-
+            Initialize(ai);
         }
         public override void Initialize(AIComponent ai)
         {

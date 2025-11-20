@@ -25,6 +25,8 @@ public sealed partial class Charactor : Luban.BeanBase
         Attack = _buf.ReadFloat();
         Defense = _buf.ReadFloat();
         Speed = _buf.ReadFloat();
+        AIName = _buf.ReadString();
+        AIParam = _buf.ReadString();
     }
 
     public static Charactor DeserializeCharactor(ByteBuf _buf)
@@ -68,6 +70,14 @@ public sealed partial class Charactor : Luban.BeanBase
     /// 速度
     /// </summary>
     public readonly float Speed;
+    /// <summary>
+    /// ai名
+    /// </summary>
+    public readonly string AIName;
+    /// <summary>
+    /// ai参数
+    /// </summary>
+    public readonly string AIParam;
    
     public const int __ID__ = -726803393;
     public override int GetTypeId() => __ID__;
@@ -88,6 +98,8 @@ public sealed partial class Charactor : Luban.BeanBase
         + "Attack:" + Attack + ","
         + "Defense:" + Defense + ","
         + "Speed:" + Speed + ","
+        + "AIName:" + AIName + ","
+        + "AIParam:" + AIParam + ","
         + "}";
     }
 }

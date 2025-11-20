@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Game.Logic.BattleModule.Entity;
 using UnityEngine;
 
-namespace Game.Logic.BattleModule.Component.AI
+namespace HotFixBattle.AI
 {
     /// <summary>
     /// AI状态机，管理AI状态之间的转换
@@ -151,6 +151,26 @@ namespace Game.Logic.BattleModule.Component.AI
             {
                 state.Initialize(ai);
             }
+
+            return state;
+        }
+
+        /// <summary>
+        /// 添加状态
+        /// </summary>
+        /// <param name="stateType">状态类型</param>
+        /// <param name="state">状态实例</param>
+        /// <returns>添加的状态实例</returns>
+        public IAIState AddState(Type stateType, IAIState state)
+        {
+            // 如果已存在该类型的状态，则返回现有状态
+            if (_states.ContainsKey(stateType))
+            {
+                return _states[stateType];
+            }
+
+            // 添加新状态
+            _states[stateType] = state;
 
             return state;
         }

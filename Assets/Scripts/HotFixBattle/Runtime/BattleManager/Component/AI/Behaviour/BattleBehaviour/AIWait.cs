@@ -3,7 +3,7 @@ using cfg;
 using Game.Logic.BattleModule.Component.Weapon;
 using Game.Logic.BattleModule.Entity;
 
-namespace Game.Logic.BattleModule.Component.AI
+namespace HotFixBattle.AI
 {
     /// <summary>
     /// 等待行为
@@ -14,7 +14,9 @@ namespace Game.Logic.BattleModule.Component.AI
         private float _timer;
 
         public override string Name => "Wait";
-
+        public AIWait()
+        {
+        }
         public AIWait(float duration)
         {
             _duration = duration;

@@ -3,7 +3,7 @@ using cfg;
 using Game.Logic.BattleModule.Component.Weapon;
 using Game.Logic.BattleModule.Entity;
 
-namespace Game.Logic.BattleModule.Component.AI
+namespace HotFixBattle.AI
 {
     /// <summary>
     /// 随机移动行为

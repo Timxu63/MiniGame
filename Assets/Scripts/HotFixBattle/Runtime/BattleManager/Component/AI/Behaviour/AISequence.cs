@@ -1,6 +1,6 @@
 using Game.Logic.BattleModule.Entity;
 
-namespace Game.Logic.BattleModule.Component.AI
+namespace HotFixBattle.AI
 {
     /// <summary>
     /// AI行为序列，依次执行子行为，直到有一个失败或全部成功

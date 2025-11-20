@@ -2,7 +2,7 @@ using System;
 using cfg;
 using Game.Logic.BattleModule.Entity;
 
-namespace Game.Logic.BattleModule.Component.AI
+namespace HotFixBattle.AI
 {
     /// <summary>
     /// 通用巡逻状态
@@ -13,9 +13,9 @@ namespace Game.Logic.BattleModule.Component.AI
         private AIFindTarget _findTargetBehavior;
         private Func<BaseEntity, bool> _targetFilter;
 
-        public AIPatrolState()
+        public AIPatrolState(AIComponent ai) : base(ai)
         {
-            
+            Initialize(ai);
         }
         public override void Initialize(AIComponent ai)
         {

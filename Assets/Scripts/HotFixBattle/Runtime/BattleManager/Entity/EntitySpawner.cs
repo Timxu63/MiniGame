@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using cfg;
-using Framework.EventSystem;
 using Framework.Runtime;
-using Game.Logic.BattleModule.Component.AI;
 using Game.Logic.BattleModule.Entity;
 using HotFixBattle;
+using HotFixBattle.AI;
 
 namespace Game.Logic.BattleModule
 {

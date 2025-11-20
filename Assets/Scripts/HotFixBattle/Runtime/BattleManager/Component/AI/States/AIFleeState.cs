@@ -2,7 +2,7 @@ using System;
 using cfg;
 using Game.Logic.BattleModule.Entity;
 
-namespace Game.Logic.BattleModule.Component.AI
+namespace HotFixBattle.AI
 {
     /// <summary>
     /// 通用逃跑状态
@@ -12,10 +12,9 @@ namespace Game.Logic.BattleModule.Component.AI
         private IAIBehavior _fleeBehavior;
         private float _fleeTimer = 0f;
         private readonly float _fleeDuration = 3.0f;
-        
-        public AIFleeState() : base()
+        public AIFleeState(AIComponent ai) : base(ai)
         {
-
+            Initialize(ai);
         }
         public override void Initialize(AIComponent ai)
         {

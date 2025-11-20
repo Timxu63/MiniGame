@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Game.Logic.BattleModule.Entity;
 
-namespace Game.Logic.BattleModule.Component.AI
+namespace HotFixBattle.AI
 {
     /// <summary>
     /// AI工厂类，用于创建和管理AI组件

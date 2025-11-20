@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using Game.Logic.BattleModule.Entity;
 
-namespace Game.Logic.BattleModule.Component.AI
+namespace HotFixBattle.AI
 {
     /// <summary>
     /// AI决策器，用于根据当前情况做出决策

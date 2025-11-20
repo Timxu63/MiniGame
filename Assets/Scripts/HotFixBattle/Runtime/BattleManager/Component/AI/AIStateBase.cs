@@ -1,7 +1,7 @@
 
 using System;
 
-namespace Game.Logic.BattleModule.Component.AI
+namespace HotFixBattle.AI
 {
     /// <summary>
     /// AI状态基类，所有AI状态都应继承自此类
